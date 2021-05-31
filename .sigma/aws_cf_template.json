@@ -252,7 +252,20 @@
           {
             "PolicyName": "aiBrushBackendPolicy",
             "PolicyDocument": {
+              "Version": "2012-10-17",
               "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:Scan"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbjobs",
+                      "Arn"
+                    ]
+                  }
+                },
                 {
                   "Effect": "Allow",
                   "Action": [
@@ -328,7 +341,7 @@
         "Principal": "apigateway.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiDeployment1622429490595": {
+    "apigaibrushBackendApiDeployment1622429854040": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {

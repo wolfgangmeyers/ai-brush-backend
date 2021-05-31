@@ -2,5 +2,8 @@
     "dependencies": {
         "@vendia/serverless-express": "4.3.7",
         "express": "4.17.1"
+    },
+    "devDependencies": {
+        "aws-sdk": "2.817.0"
     }
 }

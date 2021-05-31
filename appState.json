@@ -68,8 +68,8 @@
         "filePath": "app.js",
         "lastUpdated": 1622429479451,
         "cursor": {
-          "lineNumber": 10,
-          "column": 15
+          "lineNumber": 23,
+          "column": 1
         }
       }
     },
@@ -146,6 +146,13 @@
           "version": "4.17.1",
           "dev": false,
           "language": "nodejs"
+        },
+        "aws-sdk": {
+          "name": "aws-sdk",
+          "language": "nodejs",
+          "version": "2.817.0",
+          "dev": true,
+          "notRemovable": false
         }
       }
     }
@@ -159,7 +166,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1622429486052
+    "lastSave": 1622429840701
   },
   "VCS_STATE": {
     "provider": "GitHub",
