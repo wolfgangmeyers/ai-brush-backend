@@ -12,6 +12,15 @@
     }
   },
   "Outputs": {
+    "ddbjobs": {
+      "Description": "Stream ARN of DynamoDB table jobs",
+      "Value": {
+        "Fn::GetAtt": [
+          "ddbjobs",
+          "StreamArn"
+        ]
+      }
+    },
     "aiBrushBackend": {
       "Description": "ARN of Lambda function aiBrushBackend",
       "Value": {
@@ -23,6 +32,36 @@
     }
   },
   "Resources": {
+    "ddbjobs": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "jobs",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "created",
+            "AttributeType": "N"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "created",
+            "KeyType": "RANGE"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST",
+        "StreamSpecification": {
+          "StreamViewType": "NEW_IMAGE"
+        }
+      }
+    },
     "aiBrushBackend": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -80,7 +119,63 @@
               }
             }
           ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "aiBrushBackendPolicy",
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:ListStreams",
+                    "dynamodb:DescribeStream",
+                    "dynamodb:GetShardIterator",
+                    "dynamodb:GetRecords"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbjobs",
+                      "StreamArn"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "ddbjobsTriggeraiBrushBackend0": {
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "Properties": {
+        "BatchSize": "100",
+        "EventSourceArn": {
+          "Fn::GetAtt": [
+            "ddbjobs",
+            "StreamArn"
+          ]
+        },
+        "StartingPosition": "TRIM_HORIZON",
+        "FunctionName": {
+          "Ref": "aiBrushBackend"
         }
+      }
+    },
+    "ddbjobsPermissionaiBrushBackend": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "aiBrushBackend"
+        },
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "ddbjobs",
+            "StreamArn"
+          ]
+        },
+        "Principal": "dynamodb.amazonaws.com"
       }
     }
   }

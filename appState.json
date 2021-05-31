@@ -11,8 +11,8 @@
         "isRemovable": true,
         "filePath": "ai-brush-backend.js",
         "cursor": {
-          "lineNumber": 4,
-          "column": 3
+          "lineNumber": 2,
+          "column": 22
         },
         "config": {
           "runtime": "nodejs10.x",
@@ -22,7 +22,16 @@
           "layers": [],
           "name": "aiBrushBackend"
         },
-        "triggers": [],
+        "triggers": [
+          {
+            "resourceName": "ddbjobs",
+            "config": {
+              "StartingPosition": "TRIM_HORIZON",
+              "BatchSize": "100",
+              "StreamViewType": "NEW_IMAGE"
+            }
+          }
+        ],
         "lastUpdated": 1622426390248
       }
     },
@@ -30,7 +39,26 @@
       "b2eff732-1ea6-4aaa-8118-8e6f02fc4499"
     ],
     "currentFileId": "b2eff732-1ea6-4aaa-8118-8e6f02fc4499",
-    "resources": {},
+    "resources": {
+      "ddbjobs": {
+        "name": "ddbjobs",
+        "type": "DynamoDB",
+        "config": {
+          "mode": 0,
+          "table": {
+            "arn": "",
+            "name": "jobs",
+            "partitionKey": "id",
+            "partitionKeyType": "S",
+            "hasSortKey": true,
+            "sortKey": "created",
+            "sortKeyType": "N",
+            "payPerRequest": true,
+            "mode": 0
+          }
+        }
+      }
+    },
     "customTemplate": {
       "syntax": "JSON",
       "overrideDefault": false,
@@ -59,7 +87,8 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "language": "nodejs",
-    "platformRegions": {}
+    "platformRegions": {},
+    "lastSave": 1622426567759
   },
   "VCS_STATE": {
     "provider": "GitHub",
