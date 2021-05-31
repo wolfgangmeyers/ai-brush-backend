@@ -24,9 +24,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Job"
+                $ref: "#/components/schemas/JobList"
     post:
       description: Create a new job
       operationId: createJob
@@ -44,6 +42,27 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Job"
+  /jobs/{id}:
+    get:
+      description: Get a single job
+      operationId: getJob
+      tags:
+        - AIBrush
+      responses:
+        "200":
+          description: Job
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+    delete:
+      description: Delete a job
+      operationId: deleteJob
+      tags:
+        - AIBrush
+      responses:
+        "204":
+          description: Success
 
 components:
   schemas:
@@ -82,4 +101,10 @@ components:
           type: integer
         iterations:
           type: integer
+    JobList:
+      properties:
+        jobs:
+          type: array
+          items:
+            $ref: "#/components/schemas/Job"
 
