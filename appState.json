@@ -199,6 +199,12 @@
           "version": "5.9.1",
           "dev": true,
           "language": "nodejs"
+        },
+        "moment": {
+          "name": "moment",
+          "version": "2.29.1",
+          "dev": false,
+          "language": "nodejs"
         }
       }
     }
@@ -212,7 +218,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1622493050073
+    "lastSave": 1622493134385
   },
   "VCS_STATE": {
     "provider": "GitHub",

@@ -4,7 +4,8 @@
         "express": "4.17.1",
         "uuid": "8.3.2",
         "express-openapi-validator": "4.12.11",
-        "cors": "2.8.5"
+        "cors": "2.8.5",
+        "moment": "2.29.1"
     },
     "devDependencies": {
         "aws-sdk": "2.817.0",
