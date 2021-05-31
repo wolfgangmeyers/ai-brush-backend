@@ -2,7 +2,8 @@
     "dependencies": {
         "@vendia/serverless-express": "4.3.7",
         "express": "4.17.1",
-        "uuid": "8.3.2"
+        "uuid": "8.3.2",
+        "express-openapi-validator": "4.12.11"
     },
     "devDependencies": {
         "aws-sdk": "2.817.0"

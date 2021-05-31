@@ -2,6 +2,8 @@ const AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient();
 const express = require("express")
 const uuid = require("uuid")
+const fs = require("fs")
+const validator = require("express-openapi-validator")
 
 const converter = AWS.DynamoDB.Converter
 const apiKey = process.env.API_KEY
@@ -10,13 +12,25 @@ const apiKey = process.env.API_KEY
 const app = express()
 app.use(express.json())
 
+const spec = fs.readFileSync("./openapi.yaml")
+
+app.get("/openapi.yaml", (req, res) => {
+    res.status(200).send(spec)
+})
+
+app.use(
+    validator.middleware({
+        apiSpec: './openapi.yaml',
+    }),
+)
+
 app.get("/jobs", async (req, res) => {
     try {
         let data = await ddb.scan({
             TableName: "jobs"
         }).promise();
         const jobs = data.Items.map(item => converter.unmarshall(item))
-        res.status(200).send({ jobs: [] })
+        res.status(200).send({ jobs: jobs })
     } catch (err) {
         res.status(400).send({"message": "Didn't work"})
     };
@@ -29,5 +43,16 @@ app.post("/jobs", async (req, res) => {
     job.id = id
     res.status(201).send(job)
 })
+
+app.use((err, req, res, next) => {
+  // format error
+  if (err) {
+    console.error(err)
+    res.status(err.status || 500).json({
+        message: err.message,
+        errors: err.errors,
+    });
+  }
+});
 
 module.exports = app
