@@ -9,6 +9,10 @@
     "lambdaCodeKeyParameter": {
       "Type": "String",
       "Description": "S3 key of the Lambda deployment package"
+    },
+    "envVarAPIKEYaiBrushBackendParameter": {
+      "Type": "String",
+      "Description": "Value of the environment variable: API_KEY, for Lambda: aiBrushBackend"
     }
   },
   "Outputs": {
@@ -219,6 +223,9 @@
         },
         "Environment": {
           "Variables": {
+            "API_KEY": {
+              "Ref": "envVarAPIKEYaiBrushBackendParameter"
+            },
             "SIGMA_AWS_ACC_ID": {
               "Ref": "AWS::AccountId"
             }
@@ -341,7 +348,7 @@
         "Principal": "apigateway.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiDeployment1622429854040": {
+    "apigaibrushBackendApiDeployment1622431133144": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
