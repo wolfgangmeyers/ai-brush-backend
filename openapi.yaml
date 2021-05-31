@@ -1,17 +1,16 @@
 openapi: 3.0.0
 info:
   title: Sample API
-  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
-  version: 0.1.9
+  description: Orchestration backend for AI Brush
+  version: 1.0.0
 servers:
-  - url: http://api.example.com/v1
-    description: Optional server description, e.g. Main (production) server
-  - url: http://staging-api.example.com
-    description: Optional server description, e.g. Internal staging server for testing
+  - url: https://qb1eyw689j.execute-api.us-east-1.amazonaws.com/Prod
+  - url: /
 paths:
   /jobs:
     get:
       summary: Returns a list of jobs.
+      operationId: listJobs
       responses:
         '200':    # status code
           description: A list of jobs
@@ -23,11 +22,24 @@ paths:
                   type: string
 
 components:
-    schemas:
-        Job:
-            properties:
-                id:
-                    type: string
-                created:
-                    type: integer
-                
+  schemas:
+    Job:
+      properties:
+        id:
+          type: string
+        created:
+          type: integer
+        phrases:
+          type: array
+          items:
+            type: string
+        parent:
+          type: string
+        label:
+          type: string
+        count:
+          type: integer
+    JobInput:
+      properties:
+        
+          

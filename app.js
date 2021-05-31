@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient();
 const express = require("express")
+const cors = require("cors")
 const uuid = require("uuid")
 const fs = require("fs")
 const validator = require("express-openapi-validator")
@@ -11,6 +12,8 @@ const apiKey = process.env.API_KEY
 // @type: express.Application
 const app = express()
 app.use(express.json())
+app.use(cors())
+
 
 const spec = fs.readFileSync("./openapi.yaml")
 
@@ -23,6 +26,14 @@ app.use(
         apiSpec: './openapi.yaml',
     }),
 )
+
+app.use((req, res, next) => {
+    if (req.headers.apiKey != apiKey) {
+        res.sendStatus(400)
+        return
+    }
+    next()
+})
 
 app.get("/jobs", async (req, res) => {
     try {
