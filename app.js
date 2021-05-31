@@ -4,6 +4,7 @@ const express = require("express")
 const cors = require("cors")
 const uuid = require("uuid")
 const fs = require("fs")
+const moment = require("moment")
 const validator = require("express-openapi-validator")
 
 const converter = AWS.DynamoDB.Converter
@@ -46,30 +47,41 @@ app.get("/jobs", async (req, res) => {
         let data = await ddb.scan({
             TableName: "jobs"
         }).promise();
-        const jobs = data.Items.map(item => converter.unmarshall(item))
-        res.status(200).send({ jobs: jobs })
+        res.status(200).send({ jobs: data.Items })
     } catch (err) {
-        res.status(400).send({"message": "Didn't work"})
+        res.status(400).send({ "message": "Didn't work" })
     };
 })
 
 app.post("/jobs", async (req, res) => {
     const job = req.body
-    console.log(job)
     const id = uuid.v4()
+    const created = moment().unix()
     job.id = id
+    job.created = created
+    try {
+        await ddb.put({
+            TableName: "jobs",
+            Item: job
+        }).promise();
+    } catch (err) {
+        console.error(err)
+        res.status(400).send("Operation failed")
+        return
+    };
+
     res.status(201).send(job)
 })
 
 app.use((err, req, res, next) => {
-  // format error
-  if (err) {
-    console.error(err)
-    res.status(err.status || 500).json({
-        message: err.message,
-        errors: err.errors,
-    });
-  }
+    // format error
+    if (err) {
+        console.error(err)
+        res.status(err.status || 500).json({
+            message: err.message,
+            errors: err.errors,
+        });
+    }
 });
 
 module.exports = app
