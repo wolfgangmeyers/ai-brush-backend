@@ -7,4 +7,4 @@ app.get("/jobs", (req, res) => {
     res.status(200).send({jobs: []})
 })
 
-export default app
+module.exports = app
