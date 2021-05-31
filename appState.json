@@ -11,8 +11,8 @@
         "isRemovable": true,
         "filePath": "ai-brush-backend.js",
         "cursor": {
-          "lineNumber": 2,
-          "column": 29
+          "lineNumber": 1,
+          "column": 59
         },
         "config": {
           "runtime": "nodejs10.x",
@@ -36,7 +36,7 @@
             "config": {}
           }
         ],
-        "lastUpdated": 1622428587119
+        "lastUpdated": 1622429107529
       },
       "e63557bf-07f0-4f6d-9c58-52058a9d38fc": {
         "id": "e63557bf-07f0-4f6d-9c58-52058a9d38fc",
@@ -59,8 +59,8 @@
         "filePath": "app.js",
         "lastUpdated": 1622428589666,
         "cursor": {
-          "lineNumber": 7,
-          "column": 35
+          "lineNumber": 4,
+          "column": 22
         }
       }
     },
@@ -68,7 +68,7 @@
       "b2eff732-1ea6-4aaa-8118-8e6f02fc4499",
       "de7a868d-d152-45f4-811b-5f0aee8eaf70"
     ],
-    "currentFileId": "de7a868d-d152-45f4-811b-5f0aee8eaf70",
+    "currentFileId": "b2eff732-1ea6-4aaa-8118-8e6f02fc4499",
     "resources": {
       "ddbjobs": {
         "name": "ddbjobs",
@@ -150,7 +150,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1622428742785
+    "lastSave": 1622429139781
   },
   "VCS_STATE": {
     "provider": "GitHub",
