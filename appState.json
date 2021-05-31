@@ -55,7 +55,8 @@
         "isDirectory": false,
         "children": [],
         "isRemovable": true,
-        "filePath": "package.json"
+        "filePath": "package.json",
+        "lastUpdated": 1622485536265
       },
       "de7a868d-d152-45f4-811b-5f0aee8eaf70": {
         "id": "de7a868d-d152-45f4-811b-5f0aee8eaf70",
@@ -68,8 +69,8 @@
         "filePath": "app.js",
         "lastUpdated": 1622485068832,
         "cursor": {
-          "lineNumber": 35,
-          "column": 11
+          "lineNumber": 32,
+          "column": 23
         }
       },
       "42d69080-db92-40e4-ab71-1507d8138d7f": {
@@ -87,9 +88,10 @@
     "openFiles": [
       "de7a868d-d152-45f4-811b-5f0aee8eaf70",
       "42d69080-db92-40e4-ab71-1507d8138d7f",
-      "b2eff732-1ea6-4aaa-8118-8e6f02fc4499"
+      "b2eff732-1ea6-4aaa-8118-8e6f02fc4499",
+      "e63557bf-07f0-4f6d-9c58-52058a9d38fc"
     ],
-    "currentFileId": "de7a868d-d152-45f4-811b-5f0aee8eaf70",
+    "currentFileId": "e63557bf-07f0-4f6d-9c58-52058a9d38fc",
     "resources": {
       "ddbjobs": {
         "name": "ddbjobs",
@@ -191,6 +193,12 @@
           "version": "2.8.5",
           "dev": false,
           "language": "nodejs"
+        },
+        "@stoplight/spectral": {
+          "name": "@stoplight/spectral",
+          "version": "5.9.1",
+          "dev": true,
+          "language": "nodejs"
         }
       }
     }
@@ -204,7 +212,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1622431973938
+    "lastSave": 1622485608941
   },
   "VCS_STATE": {
     "provider": "GitHub",

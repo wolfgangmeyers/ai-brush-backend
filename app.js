@@ -29,7 +29,7 @@ app.use(
 
 app.use((req, res, next) => {
     if (req.headers.apiKey != apiKey) {
-        res.sendStatus(400)
+        res.status(401).send("Unauthorized")
         return
     }
     next()
