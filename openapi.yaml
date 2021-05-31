@@ -1,25 +1,44 @@
 openapi: 3.0.0
+tags:
+  - name: AIBrush
+
 info:
   title: Sample API
   description: Orchestration backend for AI Brush
   version: 1.0.0
+  contact:
+    email: wolfgangmeyers@gmail.com
 servers:
   - url: https://qb1eyw689j.execute-api.us-east-1.amazonaws.com/Prod
   - url: /
 paths:
   /jobs:
     get:
-      summary: Returns a list of jobs.
+      description: Returns a list of jobs.
       operationId: listJobs
+      tags:
+        - AIBrush
       responses:
         '200':    # status code
           description: A list of jobs
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
-                items: 
-                  type: string
+                items:
+                  $ref: "#/components/schemas/Job"
+    post:
+      description: Create a new job
+      operationId: createJob
+      tags:
+        - AIBrush
+      responses:
+        '201':
+          description: Job created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobInput"
 
 components:
   schemas:
@@ -39,7 +58,23 @@ components:
           type: string
         count:
           type: integer
+        iterations:
+          type: integer
     JobInput:
+      required:
+        - phrases
+        - count
       properties:
-        
-          
+        phrases:
+          type: array
+          items:
+            type: string
+        parent:
+          type: string
+        label:
+          type: string
+        count:
+          type: integer
+        iterations:
+          type: integer
+
