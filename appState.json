@@ -11,8 +11,8 @@
         "isRemovable": true,
         "filePath": "ai-brush-backend.js",
         "cursor": {
-          "lineNumber": 2,
-          "column": 22
+          "lineNumber": 3,
+          "column": 1
         },
         "config": {
           "runtime": "nodejs10.x",
@@ -30,6 +30,10 @@
               "BatchSize": "100",
               "StreamViewType": "NEW_IMAGE"
             }
+          },
+          {
+            "resourceName": "apigaibrushBackendApiany",
+            "config": {}
           }
         ],
         "lastUpdated": 1622426390248
@@ -56,6 +60,25 @@
             "payPerRequest": true,
             "mode": 0
           }
+        }
+      },
+      "apigaibrushBackendApiany": {
+        "name": "apigaibrushBackendApiany",
+        "type": "API_GATEWAY",
+        "config": {
+          "apiType": 1,
+          "apiMode": 0,
+          "apiName": "aibrush-backend-api",
+          "endpointType": "REGIONAL",
+          "resourceMode": 0,
+          "resourceName": "",
+          "resourcePath": "/",
+          "restMethod": "ANY",
+          "proxyIntegration": true,
+          "enableCORS": true,
+          "stageMode": 0,
+          "stageName": "Prod",
+          "mode": 0
         }
       }
     },
@@ -88,7 +111,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1622426567759
+    "lastSave": 1622427237349
   },
   "VCS_STATE": {
     "provider": "GitHub",
