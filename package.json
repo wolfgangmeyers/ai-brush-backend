@@ -9,5 +9,8 @@
     "devDependencies": {
         "aws-sdk": "2.817.0",
         "@stoplight/spectral": "5.9.1"
+    },
+    "scripts": {
+        "apilint": "spectral lint"
     }
 }
