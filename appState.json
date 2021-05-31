@@ -11,8 +11,8 @@
         "isRemovable": true,
         "filePath": "ai-brush-backend.js",
         "cursor": {
-          "lineNumber": 3,
-          "column": 1
+          "lineNumber": 2,
+          "column": 29
         },
         "config": {
           "runtime": "nodejs10.x",
@@ -32,17 +32,43 @@
             }
           },
           {
-            "resourceName": "apigaibrushBackendApiany",
+            "resourceName": "apigaibrushBackendApiproxyany",
             "config": {}
           }
         ],
-        "lastUpdated": 1622426390248
+        "lastUpdated": 1622428587119
+      },
+      "e63557bf-07f0-4f6d-9c58-52058a9d38fc": {
+        "id": "e63557bf-07f0-4f6d-9c58-52058a9d38fc",
+        "parent": null,
+        "name": "package.json",
+        "type": "JSON_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "package.json"
+      },
+      "de7a868d-d152-45f4-811b-5f0aee8eaf70": {
+        "id": "de7a868d-d152-45f4-811b-5f0aee8eaf70",
+        "parent": null,
+        "name": "app.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "app.js",
+        "lastUpdated": 1622428589666,
+        "cursor": {
+          "lineNumber": 7,
+          "column": 35
+        }
       }
     },
     "openFiles": [
-      "b2eff732-1ea6-4aaa-8118-8e6f02fc4499"
+      "b2eff732-1ea6-4aaa-8118-8e6f02fc4499",
+      "de7a868d-d152-45f4-811b-5f0aee8eaf70"
     ],
-    "currentFileId": "b2eff732-1ea6-4aaa-8118-8e6f02fc4499",
+    "currentFileId": "de7a868d-d152-45f4-811b-5f0aee8eaf70",
     "resources": {
       "ddbjobs": {
         "name": "ddbjobs",
@@ -62,8 +88,8 @@
           }
         }
       },
-      "apigaibrushBackendApiany": {
-        "name": "apigaibrushBackendApiany",
+      "apigaibrushBackendApiproxyany": {
+        "name": "apigaibrushBackendApiproxyany",
         "type": "API_GATEWAY",
         "config": {
           "apiType": 1,
@@ -71,8 +97,8 @@
           "apiName": "aibrush-backend-api",
           "endpointType": "REGIONAL",
           "resourceMode": 0,
-          "resourceName": "",
-          "resourcePath": "/",
+          "resourceName": "{proxy+}",
+          "resourcePath": "/{proxy+}",
           "restMethod": "ANY",
           "proxyIntegration": true,
           "enableCORS": true,
@@ -85,7 +111,7 @@
     "customTemplate": {
       "syntax": "JSON",
       "overrideDefault": false,
-      "dialect": null,
+      "dialect": "CloudFormation",
       "definitions": null
     },
     "envVariables": [
@@ -99,7 +125,20 @@
       }
     ],
     "packageJSON": {
-      "dependencies": {}
+      "dependencies": {
+        "@vendia/serverless-express": {
+          "name": "@vendia/serverless-express",
+          "version": "4.3.7",
+          "dev": false,
+          "language": "nodejs"
+        },
+        "express": {
+          "name": "express",
+          "version": "4.17.1",
+          "dev": false,
+          "language": "nodejs"
+        }
+      }
     }
   },
   "PROJECT_META": {
@@ -111,7 +150,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1622427237349
+    "lastSave": 1622428742785
   },
   "VCS_STATE": {
     "provider": "GitHub",

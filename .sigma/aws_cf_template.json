@@ -21,8 +21,8 @@
         ]
       }
     },
-    "apigaibrushBackendApiANY": {
-      "Description": "URL of aibrush-backend-api/:ANY endpoint",
+    "apigaibrushBackendApiproxyANY": {
+      "Description": "URL of aibrush-backend-api/{proxy+}:ANY endpoint",
       "Value": {
         "Fn::Join": [
           "",
@@ -37,7 +37,7 @@
             },
             ".amazonaws.com/",
             "Prod",
-            "/"
+            "/{proxy+}"
           ]
         ]
       }
@@ -95,17 +95,29 @@
         }
       }
     },
-    "apigaibrushBackendApiANY": {
+    "apigaibrushBackendApiproxy": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "apigaibrushBackendApi"
+        },
+        "ParentId": {
+          "Fn::GetAtt": [
+            "apigaibrushBackendApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "{proxy+}"
+      }
+    },
+    "apigaibrushBackendApiproxyANY": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "RestApiId": {
           "Ref": "apigaibrushBackendApi"
         },
         "ResourceId": {
-          "Fn::GetAtt": [
-            "apigaibrushBackendApi",
-            "RootResourceId"
-          ]
+          "Ref": "apigaibrushBackendApiproxy"
         },
         "HttpMethod": "ANY",
         "AuthorizationType": "NONE",
@@ -138,17 +150,14 @@
         }
       }
     },
-    "apigaibrushBackendApiCors": {
+    "apigaibrushBackendApiproxyCors": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "RestApiId": {
           "Ref": "apigaibrushBackendApi"
         },
         "ResourceId": {
-          "Fn::GetAtt": [
-            "apigaibrushBackendApi",
-            "RootResourceId"
-          ]
+          "Ref": "apigaibrushBackendApiproxy"
         },
         "HttpMethod": "OPTIONS",
         "AuthorizationType": "NONE",
@@ -297,7 +306,7 @@
         "Principal": "dynamodb.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiANYPermission": {
+    "apigaibrushBackendApiproxyANYPermission": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "Action": "lambda:InvokeFunction",
@@ -309,7 +318,7 @@
             "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${__ApiId__}/*/${__Method__}${__Path__}",
             {
               "__Method__": "*",
-              "__Path__": "/",
+              "__Path__": "/{proxy+}",
               "__ApiId__": {
                 "Ref": "apigaibrushBackendApi"
               }
@@ -319,7 +328,7 @@
         "Principal": "apigateway.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiDeployment1622427247073": {
+    "apigaibrushBackendApiDeployment1622428753224": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -329,8 +338,8 @@
         "StageName": "Prod"
       },
       "DependsOn": [
-        "apigaibrushBackendApiANY",
-        "apigaibrushBackendApiCors"
+        "apigaibrushBackendApiproxyANY",
+        "apigaibrushBackendApiproxyCors"
       ]
     }
   }

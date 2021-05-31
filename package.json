@@ -1,6 +1,6 @@
 {
-  "name": "ai-brush-backend",
-  "version": "1.0.0",
-  "dependencies": {},
-  "devDependencies": {}
+    "dependencies": {
+        "@vendia/serverless-express": "4.3.7",
+        "express": "4.17.1"
+    }
 }
