@@ -32,13 +32,18 @@ paths:
       operationId: createJob
       tags:
         - AIBrush
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobInput"
       responses:
         '201':
           description: Job created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/JobInput"
+                $ref: "#/components/schemas/Job"
 
 components:
   schemas:

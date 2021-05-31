@@ -21,6 +21,12 @@ app.get("/openapi.yaml", (req, res) => {
     res.status(200).send(spec)
 })
 
+app.use((req, res, next) => {
+    console.log(req.headers)
+    console.log(req.body)
+    next()
+})
+
 app.use(
     validator.middleware({
         apiSpec: './openapi.yaml',
