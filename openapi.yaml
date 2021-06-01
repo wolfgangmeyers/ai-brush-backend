@@ -90,6 +90,48 @@ paths:
       responses:
         "204":
           description: Job cancelled
+  /jobs/{id}/results:
+    get:
+      description: Get a list of results for a job
+      operationId: getJobResults
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      tags:
+        - AIBrush
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobResultList"
+    post:
+      description: Submit a job result
+      operationId: submitJobResult
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      tags:
+        - AIBrush
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobResultInput"
+      responses:
+        "201":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobResult"
 
 components:
   schemas:
@@ -136,4 +178,30 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Job"
+    JobResult:
+      properties:
+        id:
+          type: string
+        job_id:
+          type: string
+        encoded_image:
+          type: string
+        encoded_latents:
+          type: string
+        created:
+          type: integer
+    JobResultList:
+      properties:
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/JobResult"
+    JobResultInput:
+      properties:
+        encoded_image:
+          type: string
+        encoded_latents:
+          type: string
+      required:
+        - job_id
 

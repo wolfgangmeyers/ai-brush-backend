@@ -347,6 +347,18 @@
                 {
                   "Effect": "Allow",
                   "Action": [
+                    "dynamodb:PutItem"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbjobresults",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
                     "dynamodb:ListStreams",
                     "dynamodb:DescribeStream",
                     "dynamodb:GetShardIterator",
@@ -419,7 +431,7 @@
         "Principal": "dynamodb.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiDeployment1622514654853": {
+    "apigaibrushBackendApiDeployment1622516945144": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {

@@ -131,15 +131,19 @@ app.delete("/jobs/:id", async (req, res) => {
 })
 
 // job results
-app.post("/jobs/:id/results", async (req, res) => {
+app.get("/jobs/:id/results", async (req, res) => {
+    const jobId = req.params.id
     try {
+        // TODO: I believe this scans the whole table
         let data = await ddb.query({
             TableName: "job_results",
             ExpressionAttributeValues: {
                 ':job_id': jobId
             },
-            FilterExpression: "job_id = :job_id"
+            FilterExpression: "job_id = :job_id",
+            ProjectionExpression: "id,job_id"
         }).promise();
+
         res.status(200).send({
             results: data.Items
         })
@@ -148,6 +152,26 @@ app.post("/jobs/:id/results", async (req, res) => {
         res.status(400).send("Operation failed")
     };
 
+})
+
+app.post("/jobs/:id/results", async (req, res) => {
+    const jobId = req.params.id
+    const item = {
+        ...req.body,
+        id: uuid.v4(),
+        job_id: jobId,
+        created: moment().unix()
+    }
+    try {
+        let data = await ddb.put({
+            TableName: "job_results",
+            Item: item
+        }).promise();
+        res.status(201).send(item)
+    } catch (err) {
+        console.error(err)
+        res.status(400).send("Operation failed")
+    };
 })
 
 app.use((err, req, res, next) => {
