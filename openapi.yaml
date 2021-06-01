@@ -50,6 +50,7 @@ paths:
         - name: id
           in: path
           required: true
+          type: string
       tags:
         - AIBrush
       responses:
@@ -66,6 +67,7 @@ paths:
         - name: id
           in: path
           required: true
+          type: string
       tags:
         - AIBrush
       responses:
