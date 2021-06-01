@@ -135,7 +135,11 @@ app.delete("/jobs/:id", async (req, res) => {
 app.get("/jobs/:id/results", async (req, res) => {
     const jobId = req.params.id
     try {
-        // TODO: I believe this scans the whole table
+        // TODO: replace this query with index query
+        // don't return image or latents in result set.
+        // Client can request images and latents in parallel.
+        // These are immutable and would ideally be cached on the client.
+        // UI doesn't need latents...
         let data = await ddb.query({
             TableName: "job_results",
             ExpressionAttributeValues: {
@@ -157,6 +161,7 @@ app.get("/jobs/:id/results", async (req, res) => {
 
 app.post("/jobs/:id/results", async (req, res) => {
     const jobId = req.params.id
+    // TODO: separate cloud storage vs database
     const item = {
         ...req.body,
         id: uuid.v4(),
@@ -174,6 +179,9 @@ app.post("/jobs/:id/results", async (req, res) => {
         res.status(400).send("Operation failed")
     };
 })
+
+// TODO: get job result by id (include image only for UI, include image and latents for worker)
+// so maybe a query string param to include latents
 
 app.use((err, req, res, next) => {
     // format error
