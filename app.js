@@ -59,6 +59,7 @@ app.post("/jobs", async (req, res) => {
     const created = moment().unix()
     job.id = id
     job.created = created
+    job.cancelled = false
     try {
         await ddb.put({
             TableName: "jobs",

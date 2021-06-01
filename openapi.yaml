@@ -96,6 +96,8 @@ components:
           type: integer
         iterations:
           type: integer
+        cancelled:
+          type: boolean
     JobInput:
       required:
         - phrases
