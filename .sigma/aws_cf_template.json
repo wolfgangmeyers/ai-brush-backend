@@ -186,6 +186,25 @@
         }
       }
     },
+    "ddbjobresults": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "job_results",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST"
+      }
+    },
     "aiBrushBackend": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -316,6 +335,18 @@
                 {
                   "Effect": "Allow",
                   "Action": [
+                    "dynamodb:Query"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbjobresults",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
                     "dynamodb:ListStreams",
                     "dynamodb:DescribeStream",
                     "dynamodb:GetShardIterator",
@@ -388,7 +419,7 @@
         "Principal": "dynamodb.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiDeployment1622514052778": {
+    "apigaibrushBackendApiDeployment1622514654853": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {

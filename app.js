@@ -130,6 +130,26 @@ app.delete("/jobs/:id", async (req, res) => {
     };
 })
 
+// job results
+app.post("/jobs/:id/results", async (req, res) => {
+    try {
+        let data = await ddb.query({
+            TableName: "job_results",
+            ExpressionAttributeValues: {
+                ':job_id': jobId
+            },
+            FilterExpression: "job_id = :job_id"
+        }).promise();
+        res.status(200).send({
+            results: data.Items
+        })
+    } catch (err) {
+        console.error(err)
+        res.status(400).send("Operation failed")
+    };
+
+})
+
 app.use((err, req, res, next) => {
     // format error
     if (err) {
