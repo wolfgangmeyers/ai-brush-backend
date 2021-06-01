@@ -74,6 +74,30 @@ app.post("/jobs", async (req, res) => {
     res.status(201).send(job)
 })
 
+app.post("/jobs/:id/cancel", async (req, res) => {
+    const id = req.params.id
+    try {
+        await ddb.update({
+            TableName: "jobs",
+            Key: {
+                id: id
+            },
+            ExpressionAttributeNames: {
+                '#cancelled': "cancelled"
+            },
+            ExpressionAttributeValues: {
+                ':cancelled': true
+            },
+            UpdateExpression: "set #cancelled = :cancelled"
+        }).promise();
+        res.sendStatus(204)
+    } catch (err) {
+        console.error(err)
+        res.status(400).send("Operation failed")
+    };
+
+})
+
 app.get("/jobs/:id", async (req, res) => {
     const id = req.params.id
     try {

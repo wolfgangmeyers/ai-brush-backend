@@ -75,6 +75,21 @@ paths:
       responses:
         "204":
           description: Success
+  /jobs/{id}/cancel:
+    post:
+      description: Cancel a job
+      operationId: cancelJob
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      tags:
+        - AIBrush
+      responses:
+        "204":
+          description: Job cancelled
 
 components:
   schemas:

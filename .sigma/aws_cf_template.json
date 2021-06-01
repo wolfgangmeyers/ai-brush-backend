@@ -280,6 +280,18 @@
                 {
                   "Effect": "Allow",
                   "Action": [
+                    "dynamodb:UpdateItem"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbjobs",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
                     "dynamodb:GetItem"
                   ],
                   "Resource": {
@@ -376,7 +388,7 @@
         "Principal": "dynamodb.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiDeployment1622513741098": {
+    "apigaibrushBackendApiDeployment1622514052778": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
