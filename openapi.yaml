@@ -3,7 +3,7 @@ tags:
   - name: AIBrush
 
 info:
-  title: Sample API
+  title: AIBrush API
   description: Orchestration backend for AI Brush
   version: 1.0.0
   contact:
@@ -50,7 +50,8 @@ paths:
         - name: id
           in: path
           required: true
-          type: string
+          schema:
+            type: string
       tags:
         - AIBrush
       responses:
@@ -67,7 +68,8 @@ paths:
         - name: id
           in: path
           required: true
-          type: string
+          schema:
+            type: string
       tags:
         - AIBrush
       responses:
