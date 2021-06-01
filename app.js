@@ -163,7 +163,7 @@ app.post("/jobs/:id/results", async (req, res) => {
         created: moment().unix()
     }
     try {
-        let data = await ddb.put({
+        await ddb.put({
             TableName: "job_results",
             Item: item
         }).promise();
