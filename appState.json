@@ -67,10 +67,10 @@
         "children": [],
         "isRemovable": true,
         "filePath": "app.js",
-        "lastUpdated": 1622492529848,
+        "lastUpdated": 1622512539236,
         "cursor": {
-          "lineNumber": 50,
-          "column": 1
+          "lineNumber": 85,
+          "column": 39
         }
       },
       "42d69080-db92-40e4-ab71-1507d8138d7f": {
@@ -82,35 +82,17 @@
         "children": [],
         "isRemovable": true,
         "filePath": "openapi.yaml",
-        "lastUpdated": 1622494251509
+        "lastUpdated": 1622511820869
       }
     },
     "openFiles": [
       "de7a868d-d152-45f4-811b-5f0aee8eaf70",
-      "42d69080-db92-40e4-ab71-1507d8138d7f",
       "b2eff732-1ea6-4aaa-8118-8e6f02fc4499",
-      "e63557bf-07f0-4f6d-9c58-52058a9d38fc"
+      "e63557bf-07f0-4f6d-9c58-52058a9d38fc",
+      "42d69080-db92-40e4-ab71-1507d8138d7f"
     ],
-    "currentFileId": "42d69080-db92-40e4-ab71-1507d8138d7f",
+    "currentFileId": "de7a868d-d152-45f4-811b-5f0aee8eaf70",
     "resources": {
-      "ddbjobs": {
-        "name": "ddbjobs",
-        "type": "DynamoDB",
-        "config": {
-          "mode": 0,
-          "table": {
-            "arn": "",
-            "name": "jobs",
-            "partitionKey": "id",
-            "partitionKeyType": "S",
-            "hasSortKey": true,
-            "sortKey": "created",
-            "sortKeyType": "N",
-            "payPerRequest": true,
-            "mode": 0
-          }
-        }
-      },
       "apigaibrushBackendApiproxyany": {
         "name": "apigaibrushBackendApiproxyany",
         "type": "API_GATEWAY",
@@ -128,6 +110,24 @@
           "stageMode": 0,
           "stageName": "Prod",
           "mode": 0
+        }
+      },
+      "ddbjobs": {
+        "name": "ddbjobs",
+        "type": "DynamoDB",
+        "config": {
+          "mode": 0,
+          "table": {
+            "arn": "",
+            "name": "jobs",
+            "partitionKey": "id",
+            "partitionKeyType": "S",
+            "hasSortKey": false,
+            "sortKey": "created",
+            "sortKeyType": "N",
+            "payPerRequest": true,
+            "mode": 0
+          }
         }
       }
     },
@@ -218,7 +218,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1622511707802
+    "lastSave": 1622513416422
   },
   "VCS_STATE": {
     "provider": "GitHub",

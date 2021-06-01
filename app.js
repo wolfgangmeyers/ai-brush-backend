@@ -73,6 +73,38 @@ app.post("/jobs", async (req, res) => {
     res.status(201).send(job)
 })
 
+app.get("/jobs/:id", async (req, res) => {
+    const id = req.params.id
+    try {
+        let data = await ddb.get({
+            TableName: "jobs",
+            Key: {
+                id: id,
+            }
+        }).promise();
+        res.status(200).send(data.Item)
+    } catch (err) {
+        console.error(err)
+        res.status(400).send("Operation failed")
+    };
+})
+
+app.delete("/jobs/:id", async (req, res) => {
+    const id = req.params.id
+    try {
+        await ddb.delete({
+            TableName: "jobs",
+            Key: {
+                id: id
+            }
+        }).promise();
+        res.sendStatus(204)
+    } catch (err) {
+        console.error(err)
+        res.status(400).send("Operation failed")
+    };
+})
+
 app.use((err, req, res, next) => {
     // format error
     if (err) {

@@ -16,15 +16,6 @@
     }
   },
   "Outputs": {
-    "ddbjobs": {
-      "Description": "Stream ARN of DynamoDB table jobs",
-      "Value": {
-        "Fn::GetAtt": [
-          "ddbjobs",
-          "StreamArn"
-        ]
-      }
-    },
     "apigaibrushBackendApiproxyANY": {
       "Description": "URL of aibrush-backend-api/{proxy+}:ANY endpoint",
       "Value": {
@@ -46,6 +37,15 @@
         ]
       }
     },
+    "ddbjobs": {
+      "Description": "Stream ARN of DynamoDB table jobs",
+      "Value": {
+        "Fn::GetAtt": [
+          "ddbjobs",
+          "StreamArn"
+        ]
+      }
+    },
     "aiBrushBackend": {
       "Description": "ARN of Lambda function aiBrushBackend",
       "Value": {
@@ -57,36 +57,6 @@
     }
   },
   "Resources": {
-    "ddbjobs": {
-      "Type": "AWS::DynamoDB::Table",
-      "Properties": {
-        "TableName": "jobs",
-        "AttributeDefinitions": [
-          {
-            "AttributeName": "id",
-            "AttributeType": "S"
-          },
-          {
-            "AttributeName": "created",
-            "AttributeType": "N"
-          }
-        ],
-        "KeySchema": [
-          {
-            "AttributeName": "id",
-            "KeyType": "HASH"
-          },
-          {
-            "AttributeName": "created",
-            "KeyType": "RANGE"
-          }
-        ],
-        "BillingMode": "PAY_PER_REQUEST",
-        "StreamSpecification": {
-          "StreamViewType": "NEW_IMAGE"
-        }
-      }
-    },
     "apigaibrushBackendApi": {
       "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
@@ -194,6 +164,28 @@
         ]
       }
     },
+    "ddbjobs": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "jobs",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST",
+        "StreamSpecification": {
+          "StreamViewType": "NEW_IMAGE"
+        }
+      }
+    },
     "aiBrushBackend": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -288,6 +280,30 @@
                 {
                   "Effect": "Allow",
                   "Action": [
+                    "dynamodb:GetItem"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbjobs",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:DeleteItem"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbjobs",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
                     "dynamodb:ListStreams",
                     "dynamodb:DescribeStream",
                     "dynamodb:GetShardIterator",
@@ -304,6 +320,28 @@
             }
           }
         ]
+      }
+    },
+    "apigaibrushBackendApiproxyANYPermission": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "aiBrushBackend"
+        },
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${__ApiId__}/*/${__Method__}${__Path__}",
+            {
+              "__Method__": "*",
+              "__Path__": "/{proxy+}",
+              "__ApiId__": {
+                "Ref": "apigaibrushBackendApi"
+              }
+            }
+          ]
+        },
+        "Principal": "apigateway.amazonaws.com"
       }
     },
     "ddbjobsTriggeraiBrushBackend0": {
@@ -338,29 +376,7 @@
         "Principal": "dynamodb.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiproxyANYPermission": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Ref": "aiBrushBackend"
-        },
-        "SourceArn": {
-          "Fn::Sub": [
-            "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${__ApiId__}/*/${__Method__}${__Path__}",
-            {
-              "__Method__": "*",
-              "__Path__": "/{proxy+}",
-              "__ApiId__": {
-                "Ref": "apigaibrushBackendApi"
-              }
-            }
-          ]
-        },
-        "Principal": "apigateway.amazonaws.com"
-      }
-    },
-    "apigaibrushBackendApiDeployment1622511712319": {
+    "apigaibrushBackendApiDeployment1622513422523": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
