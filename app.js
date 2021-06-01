@@ -130,6 +130,7 @@ app.delete("/jobs/:id", async (req, res) => {
     };
 })
 
+// TODO: create a separate table to index by job id
 // job results
 app.get("/jobs/:id/results", async (req, res) => {
     const jobId = req.params.id
