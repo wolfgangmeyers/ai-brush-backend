@@ -228,7 +228,7 @@ app.get("/job-results/:id", async(req, res) => {
         const latents = await latentsPromise;
 
         res.status(200).send({
-            ...record,
+            ...record.Item,
             encoded_image: new TextDecoder().decode(image.Body),
             encoded_latents: new TextDecoder().decode(latents.Body)
         })

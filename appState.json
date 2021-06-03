@@ -67,10 +67,10 @@
         "children": [],
         "isRemovable": true,
         "filePath": "app.js",
-        "lastUpdated": 1622687544531,
+        "lastUpdated": 1622689071029,
         "cursor": {
-          "lineNumber": 276,
-          "column": 28
+          "lineNumber": 231,
+          "column": 27
         }
       },
       "42d69080-db92-40e4-ab71-1507d8138d7f": {
@@ -82,7 +82,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "openapi.yaml",
-        "lastUpdated": 1622685389134
+        "lastUpdated": 1622689006195
       }
     },
     "openFiles": [
@@ -270,7 +270,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1622688913783
+    "lastSave": 1622689083515
   },
   "VCS_STATE": {
     "provider": "GitHub",
