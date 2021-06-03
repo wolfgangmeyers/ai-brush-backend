@@ -380,8 +380,25 @@
                 {
                   "Effect": "Allow",
                   "Action": [
+                    "dynamodb:GetItem"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbjobresults",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
                     "s3:PutObject"
                   ],
+                  "Resource": "arn:aws:s3:::aibrush-attachments/*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "s3:GetObject",
                   "Resource": "arn:aws:s3:::aibrush-attachments/*"
                 },
                 {
@@ -483,7 +500,7 @@
         "Principal": "dynamodb.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiDeployment1622683525918": {
+    "apigaibrushBackendApiDeployment1622684947081": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {

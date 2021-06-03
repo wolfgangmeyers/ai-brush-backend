@@ -169,7 +169,7 @@ app.post("/jobs/:id/results", async (req, res) => {
         await ddb.put({
             TableName: "job_results",
             Item: item
-            
+
         }).promise();
         res.status(201).send(item)
 
@@ -203,8 +203,42 @@ app.post("/jobs/:id/results", async (req, res) => {
 
 // TODO: get job result by id (include image only for UI, include image and latents for worker)
 // so maybe a query string param to include latents
+app.get("/job-results/:id", async (req, res) => {
+    const id = req.params.id
+    try {
+        // load record and S3 objects in parallel
+        const recordPromise = ddb.get({
+            TableName: "job_results",
+            Key: {
+                id: id
+            }
+        }).promise();
+        
+        const imagePromise = s3.getObject({
+            Bucket: "aibrush-attachments",
+            Key: `${id}_image`
+        }).promise();
 
+        const latentsPromise = s3.getObject({
+            Bucket: "aibrush-attachments",
+            Key: `${id}_latents`
+        }).promise();
 
+        const record = await recordPromise;
+        const image = await imagePromise;
+        const latents = await latentsPromise;
+
+        res.status(200).send({
+            ...record,
+            encoded_image: new TextDecoder().decode(image.Body),
+            encoded_latents: new TextDecoder().decode(latents.Body)
+        })
+    } catch (err) {
+        console.error(err)
+        res.status("400").send("Operation failed")
+    };
+
+})
 
 app.use((err, req, res, next) => {
     // format error

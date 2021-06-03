@@ -179,7 +179,6 @@ paths:
       responses:
         "204":
           description: Success
-      
 
 components:
   schemas:
