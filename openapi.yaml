@@ -237,6 +237,10 @@ components:
           type: string
         encoded_latents:
           type: string
+        phrases:
+          type: array
+          items:
+            type: string
         created:
           type: integer
     JobResultList:
@@ -254,3 +258,17 @@ components:
       required:
         - encoded_image
         - encoded_latents
+    Image:
+      properties:
+        id:
+          type: string
+        encoded_image:
+          type: string
+        encoded_latents:
+          type: string
+        phrases:
+          type: array
+          items:
+            type: string
+        created:
+          type: integer

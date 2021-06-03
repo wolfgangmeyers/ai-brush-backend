@@ -172,6 +172,7 @@ app.post("/jobs/:id/results", async (req, res) => {
         job_id: jobId,
         created: moment().unix(),
         parent: job.parent,
+        phrases: job.phrases,
     }
     try {
         await Promise.all([
@@ -312,14 +313,16 @@ app.put("/job-results/:id", async (req, res) => {
                 ddb.put({
                     TableName: "images",
                     Item: {
-                        id: id
+                        ...jobResult,
+                        job_id: undefined,
                     }
                 }).promise(),
                 ddb.put({
                     TableName: "images_by_created",
                     Item: {
                         id: "ALL",
-                        created: jobResult.created
+                        created: jobResult.created,
+                        result_id: id,
                     }
                 }).promise(),
                 ddb.delete({
