@@ -159,41 +159,54 @@ app.get("/jobs/:id/results", async (req, res) => {
 app.post("/jobs/:id/results", async (req, res) => {
     const jobId = req.params.id
     const { encoded_image, encoded_latents } = req.body
+    
+    const job = (await ddb.get({
+        TableName: "jobs",
+        Key: {
+            id: jobId
+        }
+    }).promise()).Item
+
     const item = {
         id: uuid.v4(),
         job_id: jobId,
-        created: moment().unix()
+        created: moment().unix(),
+        parent: job.parent,
     }
     try {
-        // insert record
-        await ddb.put({
-            TableName: "job_results",
-            Item: item
+        await Promise.all([
+            // insert record
+            ddb.put({
+                TableName: "job_results",
+                Item: item
 
-        }).promise();
+            }).promise(),
 
-        // insert by_job index
-        await ddb.put({
-            TableName: "job_results_by_job",
-            Item: {
-                job_id: item.job_id,
-                result_id: item.id
-            }
-        }).promise();
+            // insert by_job index
+            ddb.put({
+                TableName: "job_results_by_job",
+                Item: {
+                    job_id: item.job_id,
+                    result_id: item.id
+                }
+            }).promise(),
 
-        await s3.putObject({
-            Bucket: "aibrush-attachments",
-            Key: `${item.id}_image`,
-            Body: encoded_image,
-            Metadata: {}
-        }).promise();
+            // upload image
+            s3.putObject({
+                Bucket: "aibrush-attachments",
+                Key: `${item.id}_image`,
+                Body: encoded_image,
+                Metadata: {}
+            }).promise(),
 
-        await s3.putObject({
-            Bucket: "aibrush-attachments",
-            Key: `${item.id}_latents`,
-            Body: encoded_latents,
-            Metadata: {}
-        }).promise();
+            // upload latents
+            s3.putObject({
+                Bucket: "aibrush-attachments",
+                Key: `${item.id}_latents`,
+                Body: encoded_latents,
+                Metadata: {}
+            }).promise(),
+        ])
 
         res.status(201).send(item)
     } catch (err) {
@@ -293,12 +306,20 @@ app.put("/job-results/:id", async (req, res) => {
                 id: id
             }
         }).promise()
+
         if (jobResult.id) {
             await Promise.all([
                 ddb.put({
                     TableName: "images",
                     Item: {
                         id: id
+                    }
+                }).promise(),
+                ddb.put({
+                    TableName: "images_by_created",
+                    Item: {
+                        id: "ALL",
+                        created: jobResult.created
                     }
                 }).promise(),
                 ddb.delete({
@@ -321,8 +342,6 @@ app.put("/job-results/:id", async (req, res) => {
         console.error(err)
         res.status("400").send("Operation failed")
     }
-
-
 })
 
 app.use((err, req, res, next) => {
