@@ -251,7 +251,7 @@ components:
           type: string
         encoded_latents:
           type: string
-        required:
-          - encoded_image
-          - encoded_latents
+      required:
+        - encoded_image
+        - encoded_latents
 
