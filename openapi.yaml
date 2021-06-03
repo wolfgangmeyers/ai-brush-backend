@@ -179,6 +179,58 @@ paths:
       responses:
         "204":
           description: Success
+  /images:
+    get:
+      description: Get a list of saved images
+      operationId: listImages
+      tags:
+        - AIBrush
+      parameters:
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImageList"
+  /images/{id}:
+    get:
+      description: Get a saved image by id
+      operationId: getImage
+      tags:
+        - AIBrush
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Image"
+    delete:
+      description: Delete a saved image
+      operationId: deleteImage
+      tags:
+        - AIBrush
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Success
 
 components:
   schemas:
@@ -274,3 +326,9 @@ components:
           type: string
         created:
           type: integer
+    ImageList:
+      properties:
+        images:
+          type: array
+          items:
+            $ref: "#/components/schemas/Image"
