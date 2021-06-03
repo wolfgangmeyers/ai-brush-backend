@@ -248,7 +248,7 @@ app.delete("/job-results/:id", async (req, res) => {
                 id
             }
         }).promise()
-        const jobId = jobResult.job_id
+        const jobId = jobResult.Item.job_id
 
         await Promise.all([
             ddb.delete({
