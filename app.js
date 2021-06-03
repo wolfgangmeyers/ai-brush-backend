@@ -43,7 +43,7 @@ app.use((req, res, next) => {
     next()
 })
 
-app.get("/jobs", async (req, res) => {
+app.get("/jobs", async(req, res) => {
     try {
         let data = await ddb.scan({
             TableName: "jobs"
@@ -54,7 +54,7 @@ app.get("/jobs", async (req, res) => {
     };
 })
 
-app.post("/jobs", async (req, res) => {
+app.post("/jobs", async(req, res) => {
     const job = req.body
     const id = uuid.v4()
     const created = moment().unix()
@@ -75,7 +75,7 @@ app.post("/jobs", async (req, res) => {
     res.status(201).send(job)
 })
 
-app.post("/jobs/:id/cancel", async (req, res) => {
+app.post("/jobs/:id/cancel", async(req, res) => {
     const id = req.params.id
     try {
         await ddb.update({
@@ -99,7 +99,7 @@ app.post("/jobs/:id/cancel", async (req, res) => {
 
 })
 
-app.get("/jobs/:id", async (req, res) => {
+app.get("/jobs/:id", async(req, res) => {
     const id = req.params.id
     try {
         let data = await ddb.get({
@@ -115,7 +115,7 @@ app.get("/jobs/:id", async (req, res) => {
     };
 })
 
-app.delete("/jobs/:id", async (req, res) => {
+app.delete("/jobs/:id", async(req, res) => {
     const id = req.params.id
     try {
         await ddb.delete({
@@ -132,7 +132,7 @@ app.delete("/jobs/:id", async (req, res) => {
 })
 
 // job results
-app.get("/jobs/:id/results", async (req, res) => {
+app.get("/jobs/:id/results", async(req, res) => {
     const jobId = req.params.id
     try {
         // Client can request images and latents in parallel.
@@ -156,7 +156,7 @@ app.get("/jobs/:id/results", async (req, res) => {
 
 })
 
-app.post("/jobs/:id/results", async (req, res) => {
+app.post("/jobs/:id/results", async(req, res) => {
     const jobId = req.params.id
     const { encoded_image, encoded_latents } = req.body
     const item = {
@@ -171,7 +171,6 @@ app.post("/jobs/:id/results", async (req, res) => {
             Item: item
 
         }).promise();
-        res.status(201).send(item)
 
         // insert by_job index
         await ddb.put({
@@ -195,13 +194,15 @@ app.post("/jobs/:id/results", async (req, res) => {
             Body: encoded_latents,
             Metadata: {}
         }).promise();
+
+        res.status(201).send(item)
     } catch (err) {
         console.error(err)
         res.status(400).send("Operation failed")
     };
 })
 
-app.get("/job-results/:id", async (req, res) => {
+app.get("/job-results/:id", async(req, res) => {
     const id = req.params.id
     try {
         // load record and S3 objects in parallel
@@ -211,7 +212,7 @@ app.get("/job-results/:id", async (req, res) => {
                 id: id
             }
         }).promise();
-        
+
         const imagePromise = s3.getObject({
             Bucket: "aibrush-attachments",
             Key: `${id}_image`
@@ -235,7 +236,6 @@ app.get("/job-results/:id", async (req, res) => {
         console.error(err)
         res.status("400").send("Operation failed")
     };
-
 })
 
 app.use((err, req, res, next) => {
