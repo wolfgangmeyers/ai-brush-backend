@@ -245,9 +245,10 @@ app.delete("/job-results/:id", async (req, res) => {
         const jobResult = await ddb.get({
             TableName: "job_results",
             Key: {
-                id
+                id: id
             }
         }).promise()
+        console.log("jobResult", JSON.stringify(jobResult))
         const jobId = jobResult.Item.job_id
 
         await Promise.all([
@@ -271,7 +272,7 @@ app.delete("/job-results/:id", async (req, res) => {
             s3.deleteObject({
                 Bucket: "aibrush-attachments",
                 Key: `${id}_image`
-            })
+            }).promise()
         ])
         res.sendStatus(204)
     } catch (err) {
