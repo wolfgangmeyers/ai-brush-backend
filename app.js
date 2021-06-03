@@ -235,7 +235,6 @@ app.get("/job-results/:id", async (req, res) => {
         console.error(err)
         res.status("400").send("Operation failed")
     };
-
 })
 
 app.use((err, req, res, next) => {
