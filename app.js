@@ -159,7 +159,7 @@ app.get("/jobs/:id/results", async (req, res) => {
 app.post("/jobs/:id/results", async (req, res) => {
     const jobId = req.params.id
     const { encoded_image, encoded_latents } = req.body
-    
+
     const job = (await ddb.get({
         TableName: "jobs",
         Key: {
@@ -345,6 +345,26 @@ app.put("/job-results/:id", async (req, res) => {
         console.error(err)
         res.status("400").send("Operation failed")
     }
+})
+
+app.get("/images", async (req, res) => {
+    const cursor = (req.query.cursor && parseInt(req.query.cursor)) || moment().unix()
+    try {
+        const indexResult = await ddb.query({
+            TableName: "images_by_created",
+            ExpressionAttributeValues: {
+                ':ALL': "ALL",
+                ':created': cursor
+            },
+            KeyConditionExpression: "id = :ALL and created < :created",
+            // order by created desc
+            ScanIndexForward: false,
+        }).promise();
+        return indexResult.Items.map(item => ({id: item.image_id, created: item.created}))
+    } catch (err) {
+        console.error(err)
+        res.status("400").send("Operation failed")
+    };
 })
 
 app.use((err, req, res, next) => {

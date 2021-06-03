@@ -527,6 +527,18 @@
                 {
                   "Effect": "Allow",
                   "Action": [
+                    "dynamodb:Query"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbimagesbycreated",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
                     "dynamodb:ListStreams",
                     "dynamodb:DescribeStream",
                     "dynamodb:GetShardIterator",
@@ -599,7 +611,7 @@
         "Principal": "dynamodb.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiDeployment1622736381532": {
+    "apigaibrushBackendApiDeployment1622741419880": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {

@@ -67,10 +67,10 @@
         "children": [],
         "isRemovable": true,
         "filePath": "app.js",
-        "lastUpdated": 1622735870361,
+        "lastUpdated": 1622740710608,
         "cursor": {
-          "lineNumber": 349,
-          "column": 1
+          "lineNumber": 360,
+          "column": 37
         }
       },
       "42d69080-db92-40e4-ab71-1507d8138d7f": {
@@ -82,7 +82,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "openapi.yaml",
-        "lastUpdated": 1622735875663
+        "lastUpdated": 1622740693977
       }
     },
     "openFiles": [
@@ -91,7 +91,7 @@
       "e63557bf-07f0-4f6d-9c58-52058a9d38fc",
       "42d69080-db92-40e4-ab71-1507d8138d7f"
     ],
-    "currentFileId": "42d69080-db92-40e4-ab71-1507d8138d7f",
+    "currentFileId": "de7a868d-d152-45f4-811b-5f0aee8eaf70",
     "resources": {
       "apigaibrushBackendApiproxyany": {
         "name": "apigaibrushBackendApiproxyany",
@@ -209,20 +209,7 @@
             "sortKeyType": "S",
             "payPerRequest": true,
             "mode": 0
-          },
-          "isGlobalEditMode": true,
-          "parameters": {
-            "Key": {},
-            "Item": {},
-            "ExpressionAttributeValues": {},
-            "IndexName": ""
-          },
-          "triggerParams": {},
-          "validator": {
-            "validatableFields": {},
-            "validity": true
-          },
-          "valid": true
+          }
         }
       }
     },
@@ -319,7 +306,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1622736371153
+    "lastSave": 1622741413977
   },
   "VCS_STATE": {
     "provider": "GitHub",
