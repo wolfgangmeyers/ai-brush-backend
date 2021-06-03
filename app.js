@@ -238,6 +238,48 @@ app.get("/job-results/:id", async(req, res) => {
     };
 })
 
+app.delete("/job-results/:id", async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const jobResult = await ddb.get({
+            TableName: "job_results",
+            Key: {
+                id
+            }
+        }).promise()
+        const jobId = jobResult.job_id
+
+        await Promise.all([
+            ddb.delete({
+                TableName: "job_results_by_job",
+                Key: {
+                    job_id: jobId,
+                    result_id: id
+                }
+            }).promise(),
+            ddb.delete({
+                TableName: "job_results",
+                Key: {
+                    id: id
+                }
+            }).promise(),
+            s3.deleteObject({
+                Bucket: "aibrush-attachments",
+                Key: `${id}_latents`
+            }).promise(),
+            s3.deleteObject({
+                Bucket: "aibrush-attachments",
+                Key: `${id}_image`
+            })
+        ])
+        res.sendStatus(204)
+    } catch (err) {
+        console.error(err)
+        res.status("400").send("Operation failed")
+    }
+})
+
 app.use((err, req, res, next) => {
     // format error
     if (err) {

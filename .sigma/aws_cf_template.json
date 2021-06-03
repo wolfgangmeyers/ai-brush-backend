@@ -254,7 +254,7 @@
         "MemorySize": 128,
         "Handler": "ai-brush-backend.handler",
         "Timeout": 60,
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Layers": [],
         "TracingConfig": {
           "Mode": "PassThrough"
@@ -392,6 +392,18 @@
                 {
                   "Effect": "Allow",
                   "Action": [
+                    "dynamodb:DeleteItem"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbjobresults",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
                     "s3:PutObject"
                   ],
                   "Resource": "arn:aws:s3:::aibrush-attachments/*"
@@ -399,6 +411,11 @@
                 {
                   "Effect": "Allow",
                   "Action": "s3:GetObject",
+                  "Resource": "arn:aws:s3:::aibrush-attachments/*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "s3:DeleteObject",
                   "Resource": "arn:aws:s3:::aibrush-attachments/*"
                 },
                 {
@@ -417,6 +434,18 @@
                   "Effect": "Allow",
                   "Action": [
                     "dynamodb:PutItem"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbjobresultsbyjob",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:DeleteItem"
                   ],
                   "Resource": {
                     "Fn::GetAtt": [
@@ -500,7 +529,7 @@
         "Principal": "dynamodb.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiDeployment1622687277044": {
+    "apigaibrushBackendApiDeployment1622688922676": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {

@@ -67,10 +67,10 @@
         "children": [],
         "isRemovable": true,
         "filePath": "app.js",
-        "lastUpdated": 1622687247980,
+        "lastUpdated": 1622687544531,
         "cursor": {
-          "lineNumber": 237,
-          "column": 7
+          "lineNumber": 276,
+          "column": 28
         }
       },
       "42d69080-db92-40e4-ab71-1507d8138d7f": {
@@ -178,10 +178,16 @@
       }
     },
     "customTemplate": {
-      "syntax": "JSON",
-      "overrideDefault": false,
       "dialect": "CloudFormation",
-      "definitions": null
+      "definitions": {
+        "Resources": {
+          "aiBrushBackend": {
+            "Properties": {
+              "Runtime": "nodejs12.x"
+            }
+          }
+        }
+      }
     },
     "envVariables": [
       {
@@ -264,7 +270,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1622687269103
+    "lastSave": 1622688913783
   },
   "VCS_STATE": {
     "provider": "GitHub",
