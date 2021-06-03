@@ -147,7 +147,7 @@ app.get("/jobs/:id/results", async(req, res) => {
         }).promise();
 
         res.status(200).send({
-            results: data.Items
+            results: data.Items.map(item => ({id: item.result_id, job_id: item.job_id}))
         })
     } catch (err) {
         console.error(err)
