@@ -360,7 +360,7 @@ app.get("/images", async (req, res) => {
             // order by created desc
             ScanIndexForward: false,
         }).promise();
-        return indexResult.Items.map(item => ({id: item.image_id, created: item.created}))
+        return indexResult.Items
     } catch (err) {
         console.error(err)
         res.status("400").send("Operation failed")
