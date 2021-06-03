@@ -201,8 +201,6 @@ app.post("/jobs/:id/results", async (req, res) => {
     };
 })
 
-// TODO: get job result by id (include image only for UI, include image and latents for worker)
-// so maybe a query string param to include latents
 app.get("/job-results/:id", async (req, res) => {
     const id = req.params.id
     try {

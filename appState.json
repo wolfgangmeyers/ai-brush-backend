@@ -69,8 +69,8 @@
         "filePath": "app.js",
         "lastUpdated": 1622683651112,
         "cursor": {
-          "lineNumber": 206,
-          "column": 35
+          "lineNumber": 204,
+          "column": 1
         }
       },
       "42d69080-db92-40e4-ab71-1507d8138d7f": {
@@ -82,7 +82,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "openapi.yaml",
-        "lastUpdated": 1622682957974
+        "lastUpdated": 1622685389134
       }
     },
     "openFiles": [
@@ -91,7 +91,7 @@
       "e63557bf-07f0-4f6d-9c58-52058a9d38fc",
       "42d69080-db92-40e4-ab71-1507d8138d7f"
     ],
-    "currentFileId": "de7a868d-d152-45f4-811b-5f0aee8eaf70",
+    "currentFileId": "42d69080-db92-40e4-ab71-1507d8138d7f",
     "resources": {
       "apigaibrushBackendApiproxyany": {
         "name": "apigaibrushBackendApiproxyany",
@@ -264,7 +264,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1622684938576
+    "lastSave": 1622685455197
   },
   "VCS_STATE": {
     "provider": "GitHub",

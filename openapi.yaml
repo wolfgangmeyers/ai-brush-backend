@@ -206,6 +206,8 @@ components:
       required:
         - phrases
         - count
+        - iterations
+        - label
       properties:
         phrases:
           type: array
