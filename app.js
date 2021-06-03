@@ -43,7 +43,7 @@ app.use((req, res, next) => {
     next()
 })
 
-app.get("/jobs", async(req, res) => {
+app.get("/jobs", async (req, res) => {
     try {
         let data = await ddb.scan({
             TableName: "jobs"
@@ -54,7 +54,7 @@ app.get("/jobs", async(req, res) => {
     };
 })
 
-app.post("/jobs", async(req, res) => {
+app.post("/jobs", async (req, res) => {
     const job = req.body
     const id = uuid.v4()
     const created = moment().unix()
@@ -75,7 +75,7 @@ app.post("/jobs", async(req, res) => {
     res.status(201).send(job)
 })
 
-app.post("/jobs/:id/cancel", async(req, res) => {
+app.post("/jobs/:id/cancel", async (req, res) => {
     const id = req.params.id
     try {
         await ddb.update({
@@ -99,7 +99,7 @@ app.post("/jobs/:id/cancel", async(req, res) => {
 
 })
 
-app.get("/jobs/:id", async(req, res) => {
+app.get("/jobs/:id", async (req, res) => {
     const id = req.params.id
     try {
         let data = await ddb.get({
@@ -115,7 +115,7 @@ app.get("/jobs/:id", async(req, res) => {
     };
 })
 
-app.delete("/jobs/:id", async(req, res) => {
+app.delete("/jobs/:id", async (req, res) => {
     const id = req.params.id
     try {
         await ddb.delete({
@@ -132,7 +132,7 @@ app.delete("/jobs/:id", async(req, res) => {
 })
 
 // job results
-app.get("/jobs/:id/results", async(req, res) => {
+app.get("/jobs/:id/results", async (req, res) => {
     const jobId = req.params.id
     try {
         // Client can request images and latents in parallel.
@@ -147,7 +147,7 @@ app.get("/jobs/:id/results", async(req, res) => {
         }).promise();
 
         res.status(200).send({
-            results: data.Items.map(item => ({id: item.result_id, job_id: item.job_id}))
+            results: data.Items.map(item => ({ id: item.result_id, job_id: item.job_id }))
         })
     } catch (err) {
         console.error(err)
@@ -156,7 +156,7 @@ app.get("/jobs/:id/results", async(req, res) => {
 
 })
 
-app.post("/jobs/:id/results", async(req, res) => {
+app.post("/jobs/:id/results", async (req, res) => {
     const jobId = req.params.id
     const { encoded_image, encoded_latents } = req.body
     const item = {
@@ -202,7 +202,7 @@ app.post("/jobs/:id/results", async(req, res) => {
     };
 })
 
-app.get("/job-results/:id", async(req, res) => {
+app.get("/job-results/:id", async (req, res) => {
     const id = req.params.id
     try {
         // load record and S3 objects in parallel
@@ -248,7 +248,6 @@ app.delete("/job-results/:id", async (req, res) => {
                 id: id
             }
         }).promise()
-        console.log("jobResult", JSON.stringify(jobResult))
         const jobId = jobResult.Item.job_id
 
         await Promise.all([
@@ -279,6 +278,51 @@ app.delete("/job-results/:id", async (req, res) => {
         console.error(err)
         res.status("400").send("Operation failed")
     }
+})
+
+app.put("/job-results/:id", async (req, res) => {
+    const id = req.params.id
+
+    // get the result, insert into saved_images with the same id
+    // delete the result, delete the job result idx entry
+    // return the saved_image
+    try {
+        const jobResult = await ddb.get({
+            TableName: "job_results",
+            Key: {
+                id: id
+            }
+        }).promise()
+        if (jobResult.id) {
+            await Promise.all([
+                ddb.put({
+                    TableName: "images",
+                    Item: {
+                        id: id
+                    }
+                }).promise(),
+                ddb.delete({
+                    TableName: "job_results",
+                    Key: {
+                        id: id
+                    }
+                }),
+                ddb.delete({
+                    TableName: "job_results_by_job",
+                    Key: {
+                        result_id: id,
+                        job_id: jobResult.job_id
+                    }
+                })
+            ])
+        }
+        res.sendStatus(204)
+    } catch (err) {
+        console.error(err)
+        res.status("400").send("Operation failed")
+    }
+
+
 })
 
 app.use((err, req, res, next) => {

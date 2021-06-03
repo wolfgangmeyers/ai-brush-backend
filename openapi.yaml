@@ -254,4 +254,3 @@ components:
       required:
         - encoded_image
         - encoded_latents
-

@@ -238,6 +238,25 @@
         "BillingMode": "PAY_PER_REQUEST"
       }
     },
+    "ddbimages": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "images",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST"
+      }
+    },
     "aiBrushBackend": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -457,6 +476,18 @@
                 {
                   "Effect": "Allow",
                   "Action": [
+                    "dynamodb:PutItem"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbimages",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
                     "dynamodb:ListStreams",
                     "dynamodb:DescribeStream",
                     "dynamodb:GetShardIterator",
@@ -529,7 +560,7 @@
         "Principal": "dynamodb.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiDeployment1622690026683": {
+    "apigaibrushBackendApiDeployment1622692583829": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {

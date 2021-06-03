@@ -67,10 +67,10 @@
         "children": [],
         "isRemovable": true,
         "filePath": "app.js",
-        "lastUpdated": 1622689071029,
+        "lastUpdated": 1622691499950,
         "cursor": {
-          "lineNumber": 152,
-          "column": 20
+          "lineNumber": 314,
+          "column": 49
         }
       },
       "42d69080-db92-40e4-ab71-1507d8138d7f": {
@@ -82,7 +82,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "openapi.yaml",
-        "lastUpdated": 1622689006195
+        "lastUpdated": 1622691278681
       }
     },
     "openFiles": [
@@ -170,6 +170,24 @@
             "partitionKeyType": "S",
             "hasSortKey": true,
             "sortKey": "result_id",
+            "sortKeyType": "S",
+            "payPerRequest": true,
+            "mode": 0
+          }
+        }
+      },
+      "ddbimages": {
+        "name": "ddbimages",
+        "type": "DynamoDB",
+        "config": {
+          "mode": 0,
+          "table": {
+            "arn": "",
+            "name": "images",
+            "partitionKey": "id",
+            "partitionKeyType": "S",
+            "hasSortKey": false,
+            "sortKey": "",
             "sortKeyType": "S",
             "payPerRequest": true,
             "mode": 0
@@ -270,7 +288,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1622690018712
+    "lastSave": 1622692572356
   },
   "VCS_STATE": {
     "provider": "GitHub",
