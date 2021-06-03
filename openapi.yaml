@@ -270,5 +270,7 @@ components:
           type: array
           items:
             type: string
+        label:
+          type: string
         created:
           type: integer
