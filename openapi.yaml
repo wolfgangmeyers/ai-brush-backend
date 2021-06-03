@@ -132,6 +132,54 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/JobResult"
+  /job-results/{id}:
+    get:
+      description: Get a job result by id
+      operationId: getJobResult
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      tags:
+        - AIBrush
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobResult"
+    put:
+      description: Saves a job result as a new image
+      operationId: saveJobResult
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      tags:
+        - AIBrush
+      responses:
+        "204":
+          description: Success
+    delete:
+      description: Deletes a job result
+      operationId: deleteJobResult
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      tags:
+        - AIBrush
+      responses:
+        "204":
+          description: Success
+      
 
 components:
   schemas:

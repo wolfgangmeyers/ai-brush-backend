@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+const s3 = new AWS.S3();
 const ddb = new AWS.DynamoDB.DocumentClient();
 const express = require("express")
 const cors = require("cors")
@@ -130,23 +131,19 @@ app.delete("/jobs/:id", async (req, res) => {
     };
 })
 
-// TODO: create a separate table to index by job id
 // job results
 app.get("/jobs/:id/results", async (req, res) => {
     const jobId = req.params.id
     try {
-        // TODO: replace this query with index query
-        // don't return image or latents in result set.
         // Client can request images and latents in parallel.
         // These are immutable and would ideally be cached on the client.
         // UI doesn't need latents...
         let data = await ddb.query({
-            TableName: "job_results",
+            TableName: "job_results_by_job",
             ExpressionAttributeValues: {
                 ':job_id': jobId
             },
-            FilterExpression: "job_id = :job_id",
-            ProjectionExpression: "id,job_id"
+            KeyConditionExpression: "job_id = :job_id",
         }).promise();
 
         res.status(200).send({
@@ -161,19 +158,43 @@ app.get("/jobs/:id/results", async (req, res) => {
 
 app.post("/jobs/:id/results", async (req, res) => {
     const jobId = req.params.id
-    // TODO: separate cloud storage vs database
+    const { encoded_image, encoded_latents } = req.body
     const item = {
-        ...req.body,
         id: uuid.v4(),
         job_id: jobId,
         created: moment().unix()
     }
     try {
+        // insert record
         await ddb.put({
             TableName: "job_results",
             Item: item
+            
         }).promise();
         res.status(201).send(item)
+
+        // insert by_job index
+        await ddb.put({
+            TableName: "job_results_by_job",
+            Item: {
+                job_id: item.job_id,
+                result_id: item.id
+            }
+        }).promise();
+
+        await s3.putObject({
+            Bucket: "aibrush-attachments",
+            Key: `${item.id}_image`,
+            Body: encoded_image,
+            Metadata: {}
+        }).promise();
+
+        await s3.putObject({
+            Bucket: "aibrush-attachments",
+            Key: `${item.id}_latents`,
+            Body: encoded_latents,
+            Metadata: {}
+        }).promise();
     } catch (err) {
         console.error(err)
         res.status(400).send("Operation failed")
@@ -182,6 +203,8 @@ app.post("/jobs/:id/results", async (req, res) => {
 
 // TODO: get job result by id (include image only for UI, include image and latents for worker)
 // so maybe a query string param to include latents
+
+
 
 app.use((err, req, res, next) => {
     // format error
