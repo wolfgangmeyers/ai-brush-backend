@@ -320,12 +320,12 @@ app.put("/job-results/:id", async (req, res) => {
             }
         }).promise()
 
-        if (jobResult.id) {
+        if (jobResult.Item.id) {
             await Promise.all([
                 ddb.put({
                     TableName: "images",
                     Item: {
-                        ...jobResult,
+                        ...jobResult.Item,
                         job_id: undefined,
                     }
                 }).promise(),
@@ -333,7 +333,7 @@ app.put("/job-results/:id", async (req, res) => {
                     TableName: "images_by_created",
                     Item: {
                         id: "ALL",
-                        created: jobResult.created,
+                        created: jobResult.Item.created,
                         result_id: id,
                     }
                 }).promise(),
@@ -347,7 +347,7 @@ app.put("/job-results/:id", async (req, res) => {
                     TableName: "job_results_by_job",
                     Key: {
                         result_id: id,
-                        job_id: jobResult.job_id
+                        job_id: jobResult.Item.job_id
                     }
                 })
             ])
