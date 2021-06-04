@@ -334,7 +334,7 @@ app.put("/job-results/:id", async (req, res) => {
                     Item: {
                         id: "ALL",
                         created: jobResult.Item.created,
-                        result_id: id,
+                        image_id: id,
                     }
                 }).promise(),
                 ddb.delete({
@@ -412,7 +412,10 @@ app.get("/images", async (req, res) => {
             // order by created desc
             ScanIndexForward: false,
         }).promise();
-        res.status(200).send(indexResult.Items)
+        res.status(200).send(indexResult.Items.map(item => ({
+            id: item.image_id,
+            created: item.created,
+        })))
     } catch (err) {
         console.error(err)
         res.status("400").send("Operation failed")

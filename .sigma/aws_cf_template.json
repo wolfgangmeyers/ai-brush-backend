@@ -702,7 +702,7 @@
         "Principal": "dynamodb.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiDeployment1622776435279": {
+    "apigaibrushBackendApiDeployment1622776585132": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
