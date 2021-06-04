@@ -179,6 +179,19 @@ paths:
       responses:
         "204":
           description: Success
+  /job-tasks:
+    get:
+      description: Gets a job task from the queue
+      operationId: getJobTask
+      tags:
+        - AIBrush
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
   /images:
     get:
       description: Get a list of saved images

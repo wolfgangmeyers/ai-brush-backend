@@ -353,10 +353,10 @@ app.get("/images", async (req, res) => {
         const indexResult = await ddb.query({
             TableName: "images_by_created",
             ExpressionAttributeValues: {
-                ':ALL': "ALL",
+                ':id': "ALL",
                 ':created': cursor
             },
-            KeyConditionExpression: "id = :ALL and created < :created",
+            KeyConditionExpression: "id = :id and created < :created",
             // order by created desc
             ScanIndexForward: false,
         }).promise();
@@ -365,6 +365,81 @@ app.get("/images", async (req, res) => {
         console.error(err)
         res.status("400").send("Operation failed")
     };
+})
+
+app.get("/images/:id", async (req, res) => {
+    const id = req.params.id
+    try {
+        const recordPromise = ddb.get({
+            TableName: "images",
+            Key: {
+                id: id
+            }
+        }).promise();
+        const imagePromise = s3.getObject({
+            Bucket: "aibrush-attachments",
+            Key: `${id}_image`
+        }).promise();
+
+        const latentsPromise = s3.getObject({
+            Bucket: "aibrush-attachments",
+            Key: `${id}_latents`
+        }).promise();
+
+        const record = await recordPromise;
+        const image = await imagePromise;
+        const latents = await latentsPromise;
+
+        res.status(200).send({
+            ...record.Item,
+            encoded_image: new TextDecoder().decode(image.Body),
+            encoded_latents: new TextDecoder().decode(latents.Body)
+        })
+    } catch (err) {
+        console.error(err)
+        res.status("400").send("Operation failed")
+    };
+})
+
+app.delete("/images/:id", async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const record = await ddb.get({
+            TableName: "images",
+            Key: {
+                id: id
+            }
+        }).promise()
+
+        await Promise.all([
+            ddb.delete({
+                TableName: "images_by_created",
+                Key: {
+                    id: "ALL",
+                    created: record.Item.created
+                }
+            }).promise(),
+            ddb.delete({
+                TableName: "images",
+                Key: {
+                    id: id
+                }
+            }).promise(),
+            s3.deleteObject({
+                Bucket: "aibrush-attachments",
+                Key: `${id}_latents`
+            }).promise(),
+            s3.deleteObject({
+                Bucket: "aibrush-attachments",
+                Key: `${id}_image`
+            }).promise()
+        ])
+        res.sendStatus(204)
+    } catch (err) {
+        console.error(err)
+        res.status("400").send("Operation failed")
+    }
 })
 
 app.use((err, req, res, next) => {
