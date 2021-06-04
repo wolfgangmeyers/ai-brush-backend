@@ -69,8 +69,8 @@
         "filePath": "app.js",
         "lastUpdated": 1622773437740,
         "cursor": {
-          "lineNumber": 417,
-          "column": 35
+          "lineNumber": 422,
+          "column": 51
         }
       },
       "42d69080-db92-40e4-ab71-1507d8138d7f": {
@@ -337,7 +337,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1622776574064
+    "lastSave": 1622776617886
   },
   "VCS_STATE": {
     "provider": "GitHub",

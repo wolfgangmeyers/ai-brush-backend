@@ -411,6 +411,7 @@ app.get("/images", async (req, res) => {
             KeyConditionExpression: "id = :id and created < :created",
             // order by created desc
             ScanIndexForward: false,
+            Limit: 20,
         }).promise();
         res.status(200).send(indexResult.Items.map(item => ({
             id: item.image_id,
