@@ -93,7 +93,7 @@ paths:
   /jobs/{id}/results:
     get:
       description: Get a list of results for a job
-      operationId: getJobResults
+      operationId: listJobResults
       parameters:
         - name: id
           in: path
