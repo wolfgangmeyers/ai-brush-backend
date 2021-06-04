@@ -66,8 +66,7 @@ app.post("/jobs", async (req, res) => {
             TableName: "jobs",
             Item: job
         }).promise();
-        res.status(201).send(job)
-
+        
         const taskPromises = []
         for (let i = 0; i < job.count; i++) {
             taskPromises.push(ddb.put({
@@ -79,6 +78,8 @@ app.post("/jobs", async (req, res) => {
             }).promise())
         }
         await Promise.all(taskPromises)
+
+        res.status(201).send(job)
     } catch (err) {
         console.error(err)
         res.status(400).send("Operation failed")
