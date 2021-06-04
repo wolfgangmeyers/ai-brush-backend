@@ -412,7 +412,7 @@ app.get("/images", async (req, res) => {
             // order by created desc
             ScanIndexForward: false,
         }).promise();
-        return indexResult.Items
+        res.status(200).send(indexResult.Items)
     } catch (err) {
         console.error(err)
         res.status("400").send("Operation failed")
