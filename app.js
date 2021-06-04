@@ -66,13 +66,24 @@ app.post("/jobs", async (req, res) => {
             TableName: "jobs",
             Item: job
         }).promise();
+        res.status(201).send(job)
+
+        const taskPromises = []
+        for (let i = 0; i < job.count; i++) {
+            taskPromises.push(ddb.put({
+                TableName: "job_tasks",
+                Item: {
+                    id: uuid.v4(),
+                    job_id: job.id
+                }
+            }).promise())
+        }
+        await Promise.all(taskPromises)
     } catch (err) {
         console.error(err)
         res.status(400).send("Operation failed")
         return
     };
-
-    res.status(201).send(job)
 })
 
 app.post("/jobs/:id/cancel", async (req, res) => {
@@ -345,6 +356,45 @@ app.put("/job-results/:id", async (req, res) => {
         console.error(err)
         res.status("400").send("Operation failed")
     }
+})
+
+app.get("/job-tasks", async (req, res) => {
+    try {
+        // This will drain the queue until a viable task is found,
+        // or we run out of tasks
+        while (true) {
+            let data = await ddb.scan({
+                TableName: "job_tasks",
+                Limit: 1,
+            }).promise();
+            if (data.Items.length < 1) {
+                res.sendStatus(204)
+                return
+            }
+            await ddb.delete({
+                TableName: "job_tasks",
+                Key: {
+                    id: data.Items[0].id
+                }
+            }).promise()
+            const job = await ddb.get({
+                TableName: "jobs",
+                Key: {
+                    id: data.Items[0].job_id
+                }
+            }).promise()
+            if (!job.id || job.cancelled) {
+                // job got deleted
+                continue
+            }
+            res.status(200).send(job)
+            return
+        }
+        
+    } catch (err) {
+        console.error(err)
+        res.status("400").send("Operation failed")
+    };
 })
 
 app.get("/images", async (req, res) => {

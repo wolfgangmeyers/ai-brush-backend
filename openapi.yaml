@@ -192,6 +192,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Job"
+        "204":
+          description: No tasks available
   /images:
     get:
       description: Get a list of saved images
