@@ -342,14 +342,14 @@ app.put("/job-results/:id", async (req, res) => {
                     Key: {
                         id: id
                     }
-                }),
+                }).promise(),
                 ddb.delete({
                     TableName: "job_results_by_job",
                     Key: {
                         result_id: id,
                         job_id: jobResult.Item.job_id
                     }
-                })
+                }).promise()
             ])
         }
         res.sendStatus(204)
