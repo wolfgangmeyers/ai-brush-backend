@@ -384,11 +384,11 @@ app.get("/job-tasks", async (req, res) => {
                     id: data.Items[0].job_id
                 }
             }).promise()
-            if (!job.id || job.cancelled) {
+            if (!job.Item.id || job.Item.cancelled) {
                 // job got deleted
                 continue
             }
-            res.status(200).send(job)
+            res.status(200).send(job.Item)
             return
         }
         
@@ -399,6 +399,7 @@ app.get("/job-tasks", async (req, res) => {
 })
 
 app.get("/images", async (req, res) => {
+
     const cursor = (req.query.cursor && parseInt(req.query.cursor)) || moment().unix()
     try {
         const indexResult = await ddb.query({

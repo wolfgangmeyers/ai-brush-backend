@@ -257,33 +257,6 @@
         "BillingMode": "PAY_PER_REQUEST"
       }
     },
-    "ddbimagesbycreated": {
-      "Type": "AWS::DynamoDB::Table",
-      "Properties": {
-        "TableName": "images_by_created",
-        "AttributeDefinitions": [
-          {
-            "AttributeName": "id",
-            "AttributeType": "S"
-          },
-          {
-            "AttributeName": "created",
-            "AttributeType": "S"
-          }
-        ],
-        "KeySchema": [
-          {
-            "AttributeName": "id",
-            "KeyType": "HASH"
-          },
-          {
-            "AttributeName": "created",
-            "KeyType": "RANGE"
-          }
-        ],
-        "BillingMode": "PAY_PER_REQUEST"
-      }
-    },
     "ddbjobtasks": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
@@ -298,6 +271,33 @@
           {
             "AttributeName": "id",
             "KeyType": "HASH"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST"
+      }
+    },
+    "ddbimagesbycreated": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "images_by_created",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "created",
+            "AttributeType": "N"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "created",
+            "KeyType": "RANGE"
           }
         ],
         "BillingMode": "PAY_PER_REQUEST"
@@ -562,42 +562,6 @@
                   ],
                   "Resource": {
                     "Fn::GetAtt": [
-                      "ddbimagesbycreated",
-                      "Arn"
-                    ]
-                  }
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "dynamodb:Query"
-                  ],
-                  "Resource": {
-                    "Fn::GetAtt": [
-                      "ddbimagesbycreated",
-                      "Arn"
-                    ]
-                  }
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "dynamodb:DeleteItem"
-                  ],
-                  "Resource": {
-                    "Fn::GetAtt": [
-                      "ddbimagesbycreated",
-                      "Arn"
-                    ]
-                  }
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "dynamodb:PutItem"
-                  ],
-                  "Resource": {
-                    "Fn::GetAtt": [
                       "ddbjobtasks",
                       "Arn"
                     ]
@@ -623,6 +587,42 @@
                   "Resource": {
                     "Fn::GetAtt": [
                       "ddbjobtasks",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:PutItem"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbimagesbycreated",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:Query"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbimagesbycreated",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:DeleteItem"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbimagesbycreated",
                       "Arn"
                     ]
                   }
@@ -702,7 +702,7 @@
         "Principal": "dynamodb.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiDeployment1622774215194": {
+    "apigaibrushBackendApiDeployment1622776126399": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
