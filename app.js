@@ -13,7 +13,9 @@ const apiKey = process.env.API_KEY
 
 // @type: express.Application
 const app = express()
-app.use(express.json())
+app.use(express.json({
+    limit: "2mb"
+}))
 app.use(cors())
 
 
