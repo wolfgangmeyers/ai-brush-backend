@@ -2,6 +2,7 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const ddb = new AWS.DynamoDB.DocumentClient();
 const express = require("express")
+const bodyParser = require("body-parser")
 const cors = require("cors")
 const uuid = require("uuid")
 const fs = require("fs")
@@ -13,7 +14,7 @@ const apiKey = process.env.API_KEY
 
 // @type: express.Application
 const app = express()
-app.use(express.json({
+app.use(bodyParser.json({
     limit: "2mb"
 }))
 app.use(cors())
