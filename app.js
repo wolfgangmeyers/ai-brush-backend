@@ -149,6 +149,10 @@ app.delete("/jobs/:id", async (req, res) => {
 // job results
 app.get("/jobs/:id/results", async (req, res) => {
     const jobId = req.params.id
+    const cursor = (req.query.cursor && parseInt(req.query.cursor)) || moment().valueOf()
+    const direction = req.query.direction || "reverse"
+    const cmp = direction == "forward" ? ">" : "<"
+
     try {
         // Client can request images and latents in parallel.
         // These are immutable and would ideally be cached on the client.
@@ -156,9 +160,11 @@ app.get("/jobs/:id/results", async (req, res) => {
         let data = await ddb.query({
             TableName: "job_results_by_job",
             ExpressionAttributeValues: {
-                ':job_id': jobId
+                ':job_id': jobId,
+                ":cursor": cursor,
             },
-            KeyConditionExpression: "job_id = :job_id",
+            KeyConditionExpression: `job_id = :job_id and cursor ${cmp} :cursor`,
+            ScanIndexForward: direction == "forward",
         }).promise();
 
         res.status(200).send({
@@ -203,7 +209,8 @@ app.post("/jobs/:id/results", async (req, res) => {
                 TableName: "job_results_by_job",
                 Item: {
                     job_id: item.job_id,
-                    result_id: item.id
+                    result_id: item.id,
+                    created: item.created,
                 }
             }).promise(),
 

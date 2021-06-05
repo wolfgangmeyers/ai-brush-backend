@@ -142,6 +142,17 @@ paths:
           required: true
           schema:
             type: string
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: direction
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [forward, reverse]
       tags:
         - AIBrush
       responses:
@@ -206,6 +217,12 @@ paths:
           required: false
           schema:
             type: integer
+        - name: direction
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [forward, reverse]
       responses:
         "200":
           description: Success
