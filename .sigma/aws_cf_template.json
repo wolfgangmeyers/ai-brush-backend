@@ -276,6 +276,33 @@
         "BillingMode": "PAY_PER_REQUEST"
       }
     },
+    "ddbjobresultsbyjob": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "job_results_by_job",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "job_id",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "created",
+            "AttributeType": "N"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "job_id",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "created",
+            "KeyType": "RANGE"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST"
+      }
+    },
     "aiBrushBackend": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -567,6 +594,42 @@
                 {
                   "Effect": "Allow",
                   "Action": [
+                    "dynamodb:Query"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbjobresultsbyjob",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:PutItem"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbjobresultsbyjob",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:DeleteItem"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "ddbjobresultsbyjob",
+                      "Arn"
+                    ]
+                  }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
                     "dynamodb:ListStreams",
                     "dynamodb:DescribeStream",
                     "dynamodb:GetShardIterator",
@@ -639,7 +702,7 @@
         "Principal": "dynamodb.amazonaws.com"
       }
     },
-    "apigaibrushBackendApiDeployment1622866840056": {
+    "apigaibrushBackendApiDeployment1622867640587": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {

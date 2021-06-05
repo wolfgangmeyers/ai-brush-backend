@@ -163,7 +163,10 @@ app.get("/jobs/:id/results", async (req, res) => {
                 ':job_id': jobId,
                 ":cursor": cursor,
             },
-            KeyConditionExpression: `job_id = :job_id and cursor ${cmp} :cursor`,
+            ExpressionAttributeNames: {
+                "#cursor": "cursor"
+            },
+            KeyConditionExpression: `job_id = :job_id and #cursor ${cmp} :cursor`,
             ScanIndexForward: direction == "forward",
         }).promise();
 
