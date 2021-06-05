@@ -60,7 +60,7 @@ app.get("/jobs", async (req, res) => {
 app.post("/jobs", async (req, res) => {
     const job = req.body
     const id = uuid.v4()
-    const created = moment().unix()
+    const created = moment().valueOf()
     job.id = id
     job.created = created
     job.cancelled = false
@@ -185,7 +185,7 @@ app.post("/jobs/:id/results", async (req, res) => {
     const item = {
         id: uuid.v4(),
         job_id: jobId,
-        created: moment().unix(),
+        created: moment().valueOf(),
         parent: job.parent,
         phrases: job.phrases,
     }
@@ -403,7 +403,7 @@ app.get("/job-tasks", async (req, res) => {
 
 app.get("/images", async (req, res) => {
 
-    const cursor = (req.query.cursor && parseInt(req.query.cursor)) || moment().unix()
+    const cursor = (req.query.cursor && parseInt(req.query.cursor)) || moment().valueOf()
     try {
         const indexResult = await ddb.query({
             TableName: "images_by_created",
