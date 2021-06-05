@@ -161,17 +161,14 @@ app.get("/jobs/:id/results", async (req, res) => {
             TableName: "job_results_by_job",
             ExpressionAttributeValues: {
                 ':job_id': jobId,
-                ":cursor": cursor,
+                ":created": cursor,
             },
-            ExpressionAttributeNames: {
-                "#cursor": "cursor"
-            },
-            KeyConditionExpression: `job_id = :job_id and #cursor ${cmp} :cursor`,
+            KeyConditionExpression: `job_id = :job_id and created ${cmp} :created`,
             ScanIndexForward: direction == "forward",
         }).promise();
 
         res.status(200).send({
-            results: data.Items.map(item => ({ id: item.result_id, job_id: item.job_id }))
+            results: data.Items.map(item => ({ id: item.result_id, job_id: item.job_id, created: item.created }))
         })
     } catch (err) {
         console.error(err)
