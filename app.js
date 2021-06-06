@@ -9,7 +9,6 @@ const fs = require("fs")
 const moment = require("moment")
 const validator = require("express-openapi-validator")
 
-const converter = AWS.DynamoDB.Converter
 const apiKey = process.env.API_KEY
 
 // @type: express.Application
@@ -18,7 +17,7 @@ app.use(bodyParser.json({
     limit: "2mb"
 }))
 app.use(cors({
-    allowedHeaders: ["apikey"]
+    allowedHeaders: "*"
 }))
 
 
