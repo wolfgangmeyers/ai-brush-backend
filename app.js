@@ -17,7 +17,9 @@ const app = express()
 app.use(bodyParser.json({
     limit: "2mb"
 }))
-app.use(cors())
+app.use(cors({
+    allowedHeaders: ["apikey"]
+}))
 
 
 const spec = fs.readFileSync("./openapi.yaml")
