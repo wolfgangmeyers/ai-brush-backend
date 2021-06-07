@@ -292,7 +292,7 @@ app.delete("/job-results/:id", async (req, res) => {
                 TableName: "job_results_by_job",
                 Key: {
                     job_id: jobId,
-                    result_id: id
+                    created: jobResult.created,
                 }
             }).promise(),
             ddb.delete({
