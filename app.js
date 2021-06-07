@@ -356,7 +356,7 @@ app.put("/job-results/:id", async (req, res) => {
                 ddb.delete({
                     TableName: "job_results_by_job",
                     Key: {
-                        result_id: id,
+                        created: jobResult.Item.created,
                         job_id: jobResult.Item.job_id
                     }
                 }).promise()
