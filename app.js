@@ -147,29 +147,32 @@ app.delete("/jobs/:id", async (req, res) => {
     };
 })
 
+const listJobResults = (jobId, cursor, direction) => {
+    const cmp = direction == "forward" ? ">" : "<"
+    // Client can request images and latents in parallel.
+    // These are immutable and would ideally be cached on the client.
+    // UI doesn't need latents...
+    let data = await ddb.query({
+        TableName: "job_results_by_job",
+        ExpressionAttributeValues: {
+            ':job_id': jobId,
+            ":created": cursor,
+        },
+        KeyConditionExpression: `job_id = :job_id and created ${cmp} :created`,
+        ScanIndexForward: direction == "forward",
+    }).promise();
+    return data.Items.map(item => ({ id: item.result_id, job_id: item.job_id, created: item.created }))
+}
+
 // job results
 app.get("/jobs/:id/results", async (req, res) => {
     const jobId = req.params.id
     const cursor = (req.query.cursor && parseInt(req.query.cursor)) || moment().valueOf()
     const direction = req.query.direction || "reverse"
-    const cmp = direction == "forward" ? ">" : "<"
-
     try {
-        // Client can request images and latents in parallel.
-        // These are immutable and would ideally be cached on the client.
-        // UI doesn't need latents...
-        let data = await ddb.query({
-            TableName: "job_results_by_job",
-            ExpressionAttributeValues: {
-                ':job_id': jobId,
-                ":created": cursor,
-            },
-            KeyConditionExpression: `job_id = :job_id and created ${cmp} :created`,
-            ScanIndexForward: direction == "forward",
-        }).promise();
-
+        const data = listJobResults(jobId, cursor, direction)
         res.status(200).send({
-            results: data.Items.map(item => ({ id: item.result_id, job_id: item.job_id, created: item.created }))
+            results: data
         })
     } catch (err) {
         console.error(err)
