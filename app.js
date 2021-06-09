@@ -134,7 +134,7 @@ app.get("/jobs/:id", async (req, res) => {
 app.delete("/jobs/:id", async (req, res) => {
     const id = req.params.id
     try {
-        const jobResults = listJobResults(id)
+        const jobResults = await listJobResults(id)
         // TODO: without pagination, some might be missed
         await Promise.all(jobResults.map(result => deleteJobResult(result.id)))
         await ddb.delete({
