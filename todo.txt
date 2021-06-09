@@ -1,0 +1,11 @@
+* Extract out crud logic from api endpoints for reuse
+* Delete all job results when deleting a job
+* Specify latents/image when fetching Image or JobResult
+* Thumbnails for faster load in the UI
+* Images page
+* Image details page
+* Algolia integration
+* gzip compression:
+
+latents: 464kb uncompressed, 345kb compressed,
+image: 407kb uncompressed, 309 compressed
