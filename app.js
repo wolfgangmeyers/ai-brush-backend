@@ -173,7 +173,7 @@ app.get("/jobs/:id/results", async (req, res) => {
     const cursor = (req.query.cursor && parseInt(req.query.cursor)) || moment().valueOf()
     const direction = req.query.direction || "reverse"
     try {
-        const data = listJobResults(jobId, cursor, direction)
+        const data = await listJobResults(jobId, cursor, direction)
         res.status(200).send({
             results: data
         })
