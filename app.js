@@ -150,7 +150,7 @@ app.delete("/jobs/:id", async (req, res) => {
     };
 })
 
-const listJobResults = (jobId, cursor, direction) => {
+const listJobResults = async (jobId, cursor, direction) => {
     const cmp = direction == "forward" ? ">" : "<"
     // Client can request images and latents in parallel.
     // These are immutable and would ideally be cached on the client.
