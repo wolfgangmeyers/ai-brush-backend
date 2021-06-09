@@ -275,40 +275,44 @@ app.get("/job-results/:id", async (req, res) => {
     };
 })
 
-app.delete("/job-results/:id", async (req, res) => {
-    const id = req.params.id
-
-    try {
-        const jobResult = await ddb.get({
+const deleteJobResult = async id => {
+    const jobResult = await ddb.get({
+        TableName: "job_results",
+        Key: {
+            id: id
+        }
+    }).promise()
+    const jobId = jobResult.Item.job_id
+    await Promise.all([
+        ddb.delete({
+            TableName: "job_results_by_job",
+            Key: {
+                job_id: jobId,
+                created: jobResult.Item.created,
+            }
+        }).promise(),
+        ddb.delete({
             TableName: "job_results",
             Key: {
                 id: id
             }
+        }).promise(),
+        s3.deleteObject({
+            Bucket: "aibrush-attachments",
+            Key: `${id}_latents`
+        }).promise(),
+        s3.deleteObject({
+            Bucket: "aibrush-attachments",
+            Key: `${id}_image`
         }).promise()
-        const jobId = jobResult.Item.job_id
-        await Promise.all([
-            ddb.delete({
-                TableName: "job_results_by_job",
-                Key: {
-                    job_id: jobId,
-                    created: jobResult.Item.created,
-                }
-            }).promise(),
-            ddb.delete({
-                TableName: "job_results",
-                Key: {
-                    id: id
-                }
-            }).promise(),
-            s3.deleteObject({
-                Bucket: "aibrush-attachments",
-                Key: `${id}_latents`
-            }).promise(),
-            s3.deleteObject({
-                Bucket: "aibrush-attachments",
-                Key: `${id}_image`
-            }).promise()
-        ])
+    ])
+}
+
+app.delete("/job-results/:id", async (req, res) => {
+    const id = req.params.id
+
+    try {
+        await deleteJobResult(id)
         res.sendStatus(204)
     } catch (err) {
         console.error(err)
