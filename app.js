@@ -134,7 +134,7 @@ app.get("/jobs/:id", async (req, res) => {
 app.delete("/jobs/:id", async (req, res) => {
     const id = req.params.id
     try {
-        const jobResults = await listJobResults(id, moment.valueOf(), "reverse")
+        const jobResults = await listJobResults(id, moment().valueOf(), "reverse")
         // TODO: without pagination, some might be missed
         await Promise.all(jobResults.map(result => deleteJobResult(result.id)))
         await ddb.delete({
@@ -155,6 +155,7 @@ const listJobResults = async (jobId, cursor, direction) => {
     // Client can request images and latents in parallel.
     // These are immutable and would ideally be cached on the client.
     // UI doesn't need latents...
+    console.log("listJobResults: cursor", cursor)
     let data = await ddb.query({
         TableName: "job_results_by_job",
         ExpressionAttributeValues: {

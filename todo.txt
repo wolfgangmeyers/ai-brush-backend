@@ -2,6 +2,7 @@
 * Delete all job results when deleting a job
 * Specify latents/image when fetching Image or JobResult
 * Thumbnails for faster load in the UI
+* Convert full image to jpeg (update UI)
 * Images page
 * Image details page
 * Algolia integration
