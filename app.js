@@ -512,9 +512,9 @@ app.get("/images/:id", async (req, res) => {
 
         res.status(200).send({
             ...record.Item,
-            encoded_image: new TextDecoder().decode(encoded_image.Body),
-            encoded_thumbnail: new TextDecoder().decode(encoded_thumbnail.Body),
-            encoded_latents: new TextDecoder().decode(encoded_latents.Body)
+            encoded_image: encoded_image && new TextDecoder().decode(encoded_image.Body),
+            encoded_thumbnail: encoded_thumbnail && new TextDecoder().decode(encoded_thumbnail.Body),
+            encoded_latents: encoded_latents && new TextDecoder().decode(encoded_latents.Body)
         })
     } catch (err) {
         console.error(err)

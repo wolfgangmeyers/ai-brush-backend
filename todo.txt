@@ -1,11 +1,6 @@
-* Specify latents/image when fetching Image or JobResult
-* Thumbnails for faster load in the UI
-* Convert full image to jpeg (update UI)
+* auto refresh on job page
+* Add more tasks to job
 * Images page
 * Image details page
 * Algolia integration
 * import and export
-* gzip compression:
-
-latents: 464kb uncompressed, 345kb compressed,
-image: 407kb uncompressed, 309 compressed
