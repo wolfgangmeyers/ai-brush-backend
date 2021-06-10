@@ -365,7 +365,7 @@ components:
           type: string
         encoded_image:
           type: string
-        encoded_thumbail:
+        encoded_thumbnail:
           type: string
         encoded_latents:
           type: string

@@ -291,6 +291,8 @@ app.get("/job-results/:id", async (req, res) => {
             }).promise()
         }
 
+        const record = await recordPromise
+
         res.status(200).send({
             ...record.Item,
             encoded_image: encoded_image && new TextDecoder().decode(encoded_image.Body),
