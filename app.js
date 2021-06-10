@@ -334,7 +334,7 @@ const deleteJobResult = async id => {
         s3.deleteObject({
             Bucket: "aibrush-attachments",
             Key: `${id}_thumbnail`
-        }),
+        }).promise(),
         s3.deleteObject({
             Bucket: "aibrush-attachments",
             Key: `${id}_image`
