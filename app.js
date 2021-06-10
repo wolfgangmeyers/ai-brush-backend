@@ -187,7 +187,7 @@ app.get("/jobs/:id/results", async (req, res) => {
 
 app.post("/jobs/:id/results", async (req, res) => {
     const jobId = req.params.id
-    const { encoded_image, encoded_latents } = req.body
+    const { encoded_image, encoded_thumbnail, encoded_latents } = req.body
 
     const job = (await ddb.get({
         TableName: "jobs",
@@ -230,6 +230,14 @@ app.post("/jobs/:id/results", async (req, res) => {
                 Metadata: {}
             }).promise(),
 
+            // upload thumbnail
+            s3.putObject({
+                Bucket: "aibrush-attachments",
+                Key: `${item.id}_thumbnail`,
+                Body: encoded_thumbnail,
+                Metadata: {}
+            }).promise(),
+
             // upload latents
             s3.putObject({
                 Bucket: "aibrush-attachments",
@@ -248,6 +256,7 @@ app.post("/jobs/:id/results", async (req, res) => {
 
 app.get("/job-results/:id", async (req, res) => {
     const id = req.params.id
+    const download = req.query.download
     try {
         // load record and S3 objects in parallel
         const recordPromise = ddb.get({
@@ -257,24 +266,36 @@ app.get("/job-results/:id", async (req, res) => {
             }
         }).promise();
 
-        const imagePromise = s3.getObject({
-            Bucket: "aibrush-attachments",
-            Key: `${id}_image`
-        }).promise();
+        let encoded_image
+        let encoded_thumbnail
+        let encoded_latents
 
-        const latentsPromise = s3.getObject({
-            Bucket: "aibrush-attachments",
-            Key: `${id}_latents`
-        }).promise();
+        if (download === "image") {
+            encoded_image = await s3.getObject({
+                Bucket: "aibrush-attachments",
+                Key: `${id}_image`
+            }).promise()
+        }
 
-        const record = await recordPromise;
-        const image = await imagePromise;
-        const latents = await latentsPromise;
+        if (download === "thumbnail") {
+            encoded_thumbnail = await s3.getObject({
+                Bucket: "aibrush-attachments",
+                Key: `${id}_thumbnail`
+            }).promise()
+        }
+
+        if (download == "latents") {
+            encoded_latents = s3.getObject({
+                Bucket: "aibrush-attachments",
+                Key: `${id}_latents`
+            }).promise()
+        }
 
         res.status(200).send({
             ...record.Item,
-            encoded_image: new TextDecoder().decode(image.Body),
-            encoded_latents: new TextDecoder().decode(latents.Body)
+            encoded_image: encoded_image && new TextDecoder().decode(encoded_image.Body),
+            encoded_thumbnail: encoded_thumbnail && new TextDecoder().decode(encoded_thumbnail.Body),
+            encoded_latents: encoded_latents &&  new TextDecoder().decode(encoded_latents.Body)
         })
     } catch (err) {
         console.error(err)
@@ -308,6 +329,10 @@ const deleteJobResult = async id => {
             Bucket: "aibrush-attachments",
             Key: `${id}_latents`
         }).promise(),
+        s3.deleteObject({
+            Bucket: "aibrush-attachments",
+            Key: `${id}_thumbnail`
+        }),
         s3.deleteObject({
             Bucket: "aibrush-attachments",
             Key: `${id}_image`
@@ -446,6 +471,7 @@ app.get("/images", async (req, res) => {
 
 app.get("/images/:id", async (req, res) => {
     const id = req.params.id
+    const download = req.query.download
     try {
         const recordPromise = ddb.get({
             TableName: "images",
@@ -453,24 +479,40 @@ app.get("/images/:id", async (req, res) => {
                 id: id
             }
         }).promise();
-        const imagePromise = s3.getObject({
-            Bucket: "aibrush-attachments",
-            Key: `${id}_image`
-        }).promise();
 
-        const latentsPromise = s3.getObject({
-            Bucket: "aibrush-attachments",
-            Key: `${id}_latents`
-        }).promise();
+        let encoded_image
+        let encoded_thumbnail
+        let encoded_latents
+
+        
+        if (download === "image") {
+            encoded_image = await s3.getObject({
+                Bucket: "aibrush-attachments",
+                Key: `${id}_image`
+            }).promise()
+        }
+
+        if (download === "thumbnail") {
+            encoded_thumbnail = await s3.getObject({
+                Bucket: "aibrush-attachments",
+                Key: `${id}_thumbnail`
+            }).promise()
+        }
+
+        if (download == "latents") {
+            encoded_latents = await s3.getObject({
+                Bucket: "aibrush-attachments",
+                Key: `${id}_latents`
+            }).promise()
+        }
 
         const record = await recordPromise;
-        const image = await imagePromise;
-        const latents = await latentsPromise;
 
         res.status(200).send({
             ...record.Item,
-            encoded_image: new TextDecoder().decode(image.Body),
-            encoded_latents: new TextDecoder().decode(latents.Body)
+            encoded_image: new TextDecoder().decode(encoded_image.Body),
+            encoded_thumbnail: new TextDecoder().decode(encoded_thumbnail.Body),
+            encoded_latents: new TextDecoder().decode(encoded_latents.Body)
         })
     } catch (err) {
         console.error(err)

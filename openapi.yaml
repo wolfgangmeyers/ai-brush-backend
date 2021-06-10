@@ -153,6 +153,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: download
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ["thumbnail", "image", "latents"]
       tags:
         - AIBrush
       responses:
@@ -242,6 +248,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: download
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ["thumbnail", "image", "latents"]
       responses:
         "200":
           description: Success
@@ -319,6 +331,8 @@ components:
           type: string
         encoded_image:
           type: string
+        encoded_thumbail:
+          type: string
         encoded_latents:
           type: string
         phrases:
@@ -337,16 +351,21 @@ components:
       properties:
         encoded_image:
           type: string
+        encoded_thumbail:
+          type: string
         encoded_latents:
           type: string
       required:
         - encoded_image
+        - encoded_thumbnail
         - encoded_latents
     Image:
       properties:
         id:
           type: string
         encoded_image:
+          type: string
+        encoded_thumbail:
           type: string
         encoded_latents:
           type: string

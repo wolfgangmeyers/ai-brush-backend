@@ -4,6 +4,7 @@
 * Images page
 * Image details page
 * Algolia integration
+* import and export
 * gzip compression:
 
 latents: 464kb uncompressed, 345kb compressed,

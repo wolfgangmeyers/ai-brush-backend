@@ -36,7 +36,7 @@
             "config": {}
           }
         ],
-        "lastUpdated": 1622491863394,
+        "lastUpdated": 1623273510125,
         "testCases": {
           "2fd2351f-4115-44cd-adc6-d489c0b932d4": {
             "id": "2fd2351f-4115-44cd-adc6-d489c0b932d4",
@@ -67,10 +67,10 @@
         "children": [],
         "isRemovable": true,
         "filePath": "app.js",
-        "lastUpdated": 1623248151351,
+        "lastUpdated": 1623273511197,
         "cursor": {
-          "lineNumber": 137,
-          "column": 61
+          "lineNumber": 514,
+          "column": 74
         }
       },
       "42d69080-db92-40e4-ab71-1507d8138d7f": {
@@ -82,7 +82,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "openapi.yaml",
-        "lastUpdated": 1622997513564
+        "lastUpdated": 1623288793170
       },
       "bd767a0a-ef5b-45aa-a62c-f8c51762f499": {
         "id": "bd767a0a-ef5b-45aa-a62c-f8c51762f499",
@@ -118,7 +118,7 @@
       "42d69080-db92-40e4-ab71-1507d8138d7f",
       "bd767a0a-ef5b-45aa-a62c-f8c51762f499"
     ],
-    "currentFileId": "bd767a0a-ef5b-45aa-a62c-f8c51762f499",
+    "currentFileId": "42d69080-db92-40e4-ab71-1507d8138d7f",
     "resources": {
       "ddbjobs": {
         "name": "ddbjobs",
