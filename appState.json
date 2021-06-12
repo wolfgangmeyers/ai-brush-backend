@@ -67,10 +67,10 @@
         "children": [],
         "isRemovable": true,
         "filePath": "app.js",
-        "lastUpdated": 1623360028827,
+        "lastUpdated": 1623440739704,
         "cursor": {
-          "lineNumber": 515,
-          "column": 84
+          "lineNumber": 448,
+          "column": 1
         }
       },
       "42d69080-db92-40e4-ab71-1507d8138d7f": {
@@ -82,7 +82,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "openapi.yaml",
-        "lastUpdated": 1623290232618
+        "lastUpdated": 1623516312130
       },
       "bd767a0a-ef5b-45aa-a62c-f8c51762f499": {
         "id": "bd767a0a-ef5b-45aa-a62c-f8c51762f499",
@@ -118,7 +118,7 @@
       "42d69080-db92-40e4-ab71-1507d8138d7f",
       "bd767a0a-ef5b-45aa-a62c-f8c51762f499"
     ],
-    "currentFileId": "de7a868d-d152-45f4-811b-5f0aee8eaf70",
+    "currentFileId": "42d69080-db92-40e4-ab71-1507d8138d7f",
     "resources": {
       "ddbjobs": {
         "name": "ddbjobs",
@@ -384,7 +384,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1623360156879
+    "lastSave": 1623516376163
   },
   "VCS_STATE": {
     "provider": "GitHub",

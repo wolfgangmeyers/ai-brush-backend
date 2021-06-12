@@ -298,6 +298,8 @@ components:
           type: integer
         cancelled:
           type: boolean
+        lr:
+          type: number
     JobInput:
       required:
         - phrases
@@ -317,6 +319,8 @@ components:
           type: integer
         iterations:
           type: integer
+        lr:
+          type: number
     JobList:
       properties:
         jobs:
