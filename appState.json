@@ -67,10 +67,10 @@
         "children": [],
         "isRemovable": true,
         "filePath": "app.js",
-        "lastUpdated": 1623440739704,
+        "lastUpdated": 1623620233580,
         "cursor": {
-          "lineNumber": 448,
-          "column": 1
+          "lineNumber": 205,
+          "column": 26
         }
       },
       "42d69080-db92-40e4-ab71-1507d8138d7f": {
@@ -118,7 +118,7 @@
       "42d69080-db92-40e4-ab71-1507d8138d7f",
       "bd767a0a-ef5b-45aa-a62c-f8c51762f499"
     ],
-    "currentFileId": "42d69080-db92-40e4-ab71-1507d8138d7f",
+    "currentFileId": "de7a868d-d152-45f4-811b-5f0aee8eaf70",
     "resources": {
       "ddbjobs": {
         "name": "ddbjobs",
@@ -384,7 +384,7 @@
     "platform": "AWS",
     "language": "nodejs",
     "platformRegions": {},
-    "lastSave": 1623619850867
+    "lastSave": 1623620533455
   },
   "VCS_STATE": {
     "provider": "GitHub",

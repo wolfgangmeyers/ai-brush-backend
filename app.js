@@ -202,6 +202,7 @@ app.post("/jobs/:id/results", async (req, res) => {
         created: moment().valueOf(),
         parent: job.parent,
         phrases: job.phrases,
+        score: job.score,
     }
     try {
         await Promise.all([
