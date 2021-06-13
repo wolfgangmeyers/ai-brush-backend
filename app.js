@@ -187,7 +187,7 @@ app.get("/jobs/:id/results", async (req, res) => {
 
 app.post("/jobs/:id/results", async (req, res) => {
     const jobId = req.params.id
-    const { encoded_image, encoded_thumbnail, encoded_latents } = req.body
+    const { encoded_image, encoded_thumbnail, encoded_latents, score } = req.body
 
     const job = (await ddb.get({
         TableName: "jobs",
@@ -202,7 +202,7 @@ app.post("/jobs/:id/results", async (req, res) => {
         created: moment().valueOf(),
         parent: job.parent,
         phrases: job.phrases,
-        score: job.score,
+        score: score,
     }
     try {
         await Promise.all([
