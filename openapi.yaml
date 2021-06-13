@@ -345,6 +345,8 @@ components:
             type: string
         created:
           type: integer
+        score:
+          type: number
     JobResultList:
       properties:
         results:
@@ -359,10 +361,13 @@ components:
           type: string
         encoded_latents:
           type: string
+        score:
+          type: number
       required:
         - encoded_image
         - encoded_thumbnail
         - encoded_latents
+        - score
     Image:
       properties:
         id:
@@ -380,6 +385,8 @@ components:
         label:
           type: string
         created:
+          type: integer
+        score:
           type: integer
     ImageList:
       properties:
